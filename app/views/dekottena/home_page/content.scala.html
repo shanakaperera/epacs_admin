@@ -1,0 +1,233 @@
+@(content: String)
+<div class="right_col" role="main">
+        <!-- top tiles -->
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-suitcase"></i> Sales Orders</span>
+
+            <div class="count">0</div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-clock-o"></i> Purchase Order</span>
+
+            <div class="count">0</div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Products to Reorder</span>
+
+            <div class="count green">0</div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Work Orders</span>
+
+            <div class="count">0</div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Count Sheets</span>
+
+            <div class="count">0</div>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+            <span class="count_top"><i class="fa fa-users"></i> Total Users</span>
+
+            <div class="count">0</div>
+        </div>
+    </div>
+        <!-- /top tiles -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Transaction Summary <small>Weekly progress</small></h2>
+                    <div class="filter">
+                        <div id="reportrange" class="pull-right" style="background: #fff;
+                            cursor: pointer;
+                            padding: 5px 10px;
+                            border: 1px solid #ccc">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            <span>November 24, 2017 - December 23, 2017</span>
+                            <b class="caret"></b>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <div class="demo-container" style="height: 280px">
+                            <div id="chart_plot_02" class="demo-placeholder" style="padding: 0px;
+                                position: relative;"><canvas class="flot-base" style="direction: ltr;
+                                position: absolute;
+                                left: 0px;
+                                top: 0px;
+                                width: 755px;
+                                height: 280px;" width="755" height="280"></canvas>
+                                <div class="flot-text" style="position: absolute;
+                                    top: 0px;
+                                    left: 0px;
+                                    bottom: 0px;
+                                    right: 0px;
+                                    font-size: smaller;
+                                    color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute;
+                                    top: 0px;
+                                    left: 0px;
+                                    bottom: 0px;
+                                    right: 0px;
+                                    display: block;"><div style="position: absolute;
+                                    max-width: 62px;
+                                    top: 264px;
+                                    left: 49px;
+                                    text-align: center;" class="flot-tick-label tickLabel">24/12/17</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 119px;
+                                        text-align: center;" class="flot-tick-label tickLabel">26/12/17</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 190px;
+                                        text-align: center;" class="flot-tick-label tickLabel">28/12/17</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 260px;
+                                        text-align: center;" class="flot-tick-label tickLabel">30/12/17</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 330px;
+                                        text-align: center;" class="flot-tick-label tickLabel">01/01/18</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 401px;
+                                        text-align: center;" class="flot-tick-label tickLabel">03/01/18</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 471px;
+                                        text-align: center;" class="flot-tick-label tickLabel">05/01/18</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 542px;
+                                        text-align: center;" class="flot-tick-label tickLabel">07/01/18</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 612px;
+                                        text-align: center;" class="flot-tick-label tickLabel">09/01/18</div>
+                                    <div style="position: absolute;
+                                        max-width: 62px;
+                                        top: 264px;
+                                        left: 682px;
+                                        text-align: center;" class="flot-tick-label tickLabel">11/01/18</div>
+                                </div>
+                                    <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute;
+                                        top: 0px;
+                                        left: 0px;
+                                        bottom: 0px;
+                                        right: 0px;
+                                        display: block;"><div style="position: absolute;
+                                        top: 246px;
+                                        left: 12px;
+                                        text-align: right;" class="flot-tick-label tickLabel">0</div>
+                                        <div style="position: absolute;
+                                            top: 205px;
+                                            left: 6px;
+                                            text-align: right;" class="flot-tick-label tickLabel">20</div>
+                                        <div style="position: absolute;
+                                            top: 164px;
+                                            left: 6px;
+                                            text-align: right;" class="flot-tick-label tickLabel">40</div>
+                                        <div style="position: absolute;
+                                            top: 123px;
+                                            left: 6px;
+                                            text-align: right;" class="flot-tick-label tickLabel">60</div>
+                                        <div style="position: absolute;
+                                            top: 82px;
+                                            left: 6px;
+                                            text-align: right;" class="flot-tick-label tickLabel">80</div>
+                                        <div style="position: absolute;
+                                            top: 41px;
+                                            left: 0px;
+                                            text-align: right;" class="flot-tick-label tickLabel">100</div>
+                                        <div style="position: absolute;
+                                            top: 0px;
+                                            left: 0px;
+                                            text-align: right;" class="flot-tick-label tickLabel">120</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div>
+                            <div class="x_title">
+                                <h2>Top Profiles</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <ul class="list-unstyled top_profiles scroll-view">
+                                <li class="media event">
+                                    <a class="pull-left border-aero profile_thumb">
+                                        <i class="fa fa-user aero"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">Ms. Mary Jane</a>
+                                        <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                                        <p> <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="media event">
+                                    <a class="pull-left border-green profile_thumb">
+                                        <i class="fa fa-user green"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">Ms. Mary Jane</a>
+                                        <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                                        <p> <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="media event">
+                                    <a class="pull-left border-blue profile_thumb">
+                                        <i class="fa fa-user blue"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">Ms. Mary Jane</a>
+                                        <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                                        <p> <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="media event">
+                                    <a class="pull-left border-aero profile_thumb">
+                                        <i class="fa fa-user aero"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">Ms. Mary Jane</a>
+                                        <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                                        <p> <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="media event">
+                                    <a class="pull-left border-green profile_thumb">
+                                        <i class="fa fa-user green"></i>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">Ms. Mary Jane</a>
+                                        <p><strong>$2300. </strong> Agent Avarage Sales </p>
+                                        <p> <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

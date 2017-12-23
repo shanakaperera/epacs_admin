@@ -1,0 +1,38 @@
+
+#image-preview {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #ecf0f1;
+    float: right;
+    background-size: 120px;
+}
+
+#image-upload {
+    line-height: 200px;
+    font-size: 200px;
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+}
+
+#image-label {
+    position: absolute;
+    z-index: 5;
+    opacity: 0.8;
+    cursor: pointer;
+    background-color: #bdc3c7;
+    width: 200px;
+    height: 15px;
+    font-size: 10px;
+    line-height: 15px;
+    text-transform: uppercase;
+    top: 10;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+}

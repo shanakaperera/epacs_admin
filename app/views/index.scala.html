@@ -1,0 +1,36 @@
+@(title: String)(content: Html)(custom_js:Html)
+
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <title>EPACS Admin | @title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+        @*=========================CSS FILES=====================*@
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/bootstrap/dist/css/bootstrap.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/font-awesome/css/font-awesome.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/nprogress/nprogress.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/iCheck/skins/flat/green.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/google-code-prettify/bin/prettify.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/select2/dist/css/select2.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/switchery/dist/switchery.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/starrr/dist/starrr.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/jqvmap/dist/jqvmap.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/bootstrap-daterangepicker/daterangepicker.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/shield-ui/shield_grid.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/jquery-confirm/jquery-confirm.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/image-upload/image-upload.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/jquery.tagsinput/bootstrap-tagsinput.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("vendors/jquery.tagsinput/icon-picker/icon-picker.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("build/css/custom.css")">
+    </header>
+    <body class="nav-md">
+        <div class="container body">
+        @content
+        </div>
+
+        @*=========================JAVA SCRIPT FILES=====================*@
+        @common.js_scripts(custom_js)
+    </body>
+</html>

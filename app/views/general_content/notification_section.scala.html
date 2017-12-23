@@ -1,0 +1,18 @@
+@(notification_section: String)
+<div class="row">
+    <div class="col-md-12">
+        <section id="main-content" class="clearfix">
+
+            @for(key <- Array("danger", "info", "success", "warning")) {
+                @if(flash.containsKey(key)) {
+                    <div class="alert alert-@key">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        @flash.get(key)
+                    </div>
+                }
+            }
+
+        </section>
+
+    </div>
+</div>

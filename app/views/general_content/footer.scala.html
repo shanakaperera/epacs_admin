@@ -1,0 +1,9 @@
+@(footer: String)
+<footer>
+    <div class="pull-right">
+        <a href="@play.Play.application().configuration().getString("env.developer_company_web")">
+        @play.Play.application().configuration().getString("env.developer_company_name")
+        </a> All rights reserved!
+    </div>
+    <div class="clearfix"></div>
+</footer>

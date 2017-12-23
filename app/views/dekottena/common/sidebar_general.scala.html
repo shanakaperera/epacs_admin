@@ -1,0 +1,61 @@
+@()
+<ul class="nav side-menu">
+    <li><a href="@routes.DashBoardController.dashboard()"><i class="fa fa-home"></i>
+        Dash Board</a>
+    </li>
+    <li><a><i class="fa fa-file-text" style="color: #7ca56c;"></i>
+        Sales <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+            <li><a href="">New Sales Quote</a></li>
+            <li><a href="">New Sales Order</a></li>
+            <li><a>Sales Order List<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li class="sub_menu"><a href="level2.html">Recent Orders</a></li>
+                    <li><a href="#level2_1">Open Orders</a></li>
+                    <li><a href="#level2_2">Invoiced Orders</a></li>
+                    <li><a href="#level2_2">Paid Orders</a></li>
+                </ul>
+            </li>
+            <li><a href="">New Customer</a></li>
+            <li><a href="#level1_1">Customer List</a></li>
+        </ul>
+    </li>
+    @*<li><a><i class="fa fa-file-text" style="color: #a59234;"></i>*@
+        @*Purchasing <span class="fa fa-chevron-down"></span></a>*@
+        @*<ul class="nav child_menu">*@
+            @*<li><a href="">New Purchase Order</a></li>*@
+            @*<li><a>Purchase Order List<span class="fa fa-chevron-down"></span></a>*@
+                @*<ul class="nav child_menu">*@
+                    @*<li class="sub_menu"><a href="level2.html">Recent Orders</a></li>*@
+                    @*<li><a href="#level2_1">Open Orders</a></li>*@
+                    @*<li><a href="#level2_2">Received Orders</a></li>*@
+                    @*<li><a href="#level2_2">Paid Orders</a></li>*@
+                @*</ul>*@
+            @*</li>*@
+            @*<li><a href="">New Vendor</a></li>*@
+            @*<li><a href="#level1_1">Vendor List</a></li>*@
+        @*</ul>*@
+    @*</li>*@
+    <li><a><i class="fa fa-cubes"></i> Inventory <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+            <li><a href="">New Product</a></li>
+            <li><a href="">Product List</a></li>
+            <li><a href="">Product Categories</a></li>
+            <li><a href="javascript:;" onclick="show_pricing();">Product Pricing</a></li>
+            <li><a href="">Current Stock</a></li>
+            <li><a href="@controllers.dekottena.routes.ProductCoatingController.home()">Product Coatings</a></li>
+            <li><a href="">Product Fittings</a></li>
+            <li><a href="javascript:;" onclick="show_stock_adjust();">Adjust Stock</a></li>
+            <li><a href="#level1_1">Count Sheet</a></li>
+            <li><a href="javascript:;" onclick="show_transfer_stock();">Transfer Stock</a></li>
+            <li><a href="javascript:;" onclick="show_reorder_stock();">Reorder Stock</a></li>
+            <li><a href="#level1_1">Work Order</a></li>
+        </ul>
+    </li>
+    <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+            <li><a href="#level_1">Sales By Product</a></li>
+            <li><a href="#level_1">Customer Payments</a></li>
+        </ul>
+    </li>
+</ul>
