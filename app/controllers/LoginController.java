@@ -1,11 +1,14 @@
 package controllers;
 
 import play.mvc.*;
-import views.html.*;
+import java.sql.SQLException;
 
 public class LoginController extends Controller {
 
-    public Result login() {
-        return ok(views.html.login_page.login.render());
+    public Result login() throws SQLException {
+
+        String title = "Admin";
+
+        return ok(views.html.login_page.login.render(title));
     }
 }
