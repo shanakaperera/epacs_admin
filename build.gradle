@@ -1,4 +1,4 @@
-plugins {
+5plugins {
     id 'play'
     id 'idea'
 }

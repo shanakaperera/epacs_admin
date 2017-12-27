@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 24, 2017 5:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.Fitting" table="fitting" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="code" type="string">
+            <column name="code" length="10" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" length="45" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="65535" />
+        </property>
+        <property name="imgPath" type="string">
+            <column name="img_path" length="65535" />
+        </property>
+        <property name="charge" type="java.lang.Double">
+            <column name="charge" precision="22" scale="0" />
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="65535" />
+        </property>
+        <property name="status" type="boolean">
+            <column name="status" not-null="true" />
+        </property>
+        <set name="productHasFittings" table="product_has_fitting" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fitting_id" not-null="true" />
+            </key>
+            <one-to-many class="models.ProductHasFitting" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -15,8 +15,8 @@ GET     /dekottena/home                   controllers.dekottena.HomeController.h
 # show Dekottena product coating Page
 GET     /dekottena/product_coating        controllers.dekottena.ProductCoatingController.home
 
-# show Dekottena product fitting Page
-GET     /dekottena/product_fitting        controllers.dekottena.ProductFittingController.home
+# save Dekottena product coating
+POST   /dekottena/coating_save            controllers.dekottena.ProductCoatingController.save
 
 
 

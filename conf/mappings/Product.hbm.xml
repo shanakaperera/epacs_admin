@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 24, 2017 5:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.Product" table="product" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="code" type="string">
+            <column name="code" length="12" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" length="45" />
+        </property>
+        <property name="boldText" type="string">
+            <column name="bold_text" length="100" />
+        </property>
+        <property name="homeDescription" type="string">
+            <column name="home_description" length="65535" />
+        </property>
+        <property name="shortDescription" type="string">
+            <column name="short_description" length="65535" />
+        </property>
+        <property name="longDescription" type="string">
+            <column name="long_description" length="65535" />
+        </property>
+        <property name="homeImgPath" type="string">
+            <column name="home_img_path" length="65535" />
+        </property>
+        <property name="detailImgPath" type="string">
+            <column name="detail_img_path" length="65535" />
+        </property>
+        <property name="imgTitle1" type="string">
+            <column name="img_title_1" length="45">
+                <comment>detail img path bottom images default size</comment>
+            </column>
+        </property>
+        <property name="imgTitle2" type="string">
+            <column name="img_title_2" length="45">
+                <comment>detail img path bottom images name and background color</comment>
+            </column>
+        </property>
+        <property name="sizeImgPath" type="string">
+            <column name="size_img_path" length="65535" />
+        </property>
+        <property name="borderImgPath" type="string">
+            <column name="border_img_path" length="65535" />
+        </property>
+        <property name="sideViewsImg" type="string">
+            <column name="side_views_img" length="65535" />
+        </property>
+        <set name="productHasFittings" table="product_has_fitting" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="product_id" not-null="true" />
+            </key>
+            <one-to-many class="models.ProductHasFitting" />
+        </set>
+        <set name="productHasCoatings" table="product_has_coating" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="product_id" not-null="true" />
+            </key>
+            <one-to-many class="models.ProductHasCoating" />
+        </set>
+        <set name="productHasSizes" table="product_has_size" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="product_id" not-null="true" />
+            </key>
+            <one-to-many class="models.ProductHasSize" />
+        </set>
+    </class>
+</hibernate-mapping>

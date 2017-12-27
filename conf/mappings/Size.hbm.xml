@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 24, 2017 5:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.Size" table="size" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="45" />
+        </property>
+        <property name="width" type="java.lang.Integer">
+            <column name="width" />
+        </property>
+        <property name="height" type="java.lang.Integer">
+            <column name="height" />
+        </property>
+        <property name="measureUnit" type="string">
+            <column name="measure_unit" length="45" />
+        </property>
+        <property name="remark" type="string">
+            <column name="remark" length="45" />
+        </property>
+        <property name="status" type="boolean">
+            <column name="status" not-null="true" />
+        </property>
+        <set name="productHasSizes" table="product_has_size" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="size_id" not-null="true" />
+            </key>
+            <one-to-many class="models.ProductHasSize" />
+        </set>
+    </class>
+</hibernate-mapping>

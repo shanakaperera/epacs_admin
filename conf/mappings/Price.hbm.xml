@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 26, 2017 10:45:41 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.Price" table="price" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="productHasSize" class="models.ProductHasSize" fetch="select">
+            <column name="product_has_size_id" not-null="true" />
+        </many-to-one>
+        <property name="qtyRange" type="string">
+            <column name="qty_range" length="45" />
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="price" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
