@@ -16,7 +16,7 @@ GET     /dekottena/home                   controllers.dekottena.HomeController.h
 GET     /dekottena/product_coating        controllers.dekottena.ProductCoatingController.home
 
 # save Dekottena product coating
-POST   /dekottena/coating_save            controllers.dekottena.ProductCoatingController.save
+POST   /dekottena/product_coating/coating_save            controllers.dekottena.ProductCoatingController.save
 
 
 # ==========================================DEKOTTENA ENDS===============================================================
