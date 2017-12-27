@@ -20,6 +20,7 @@ public class Fitting  implements java.io.Serializable {
      private String remark;
      private boolean status;
      private Set<ProductHasFitting> productHasFittings = new HashSet<>();
+    private String Action;
 
     public Fitting() {
     }
@@ -28,6 +29,15 @@ public class Fitting  implements java.io.Serializable {
     public Fitting(boolean status) {
         this.status = status;
     }
+
+
+    //////////////////////////
+    public Fitting(String code,String action) {
+        this.code = code;
+        this.Action = action;
+    }
+    //////////////////////////
+
     public Fitting(String code, String title, String description, String imgPath, Double charge, String remark, boolean status, Set<ProductHasFitting> productHasFittings) {
        this.code = code;
        this.title = title;

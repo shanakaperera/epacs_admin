@@ -28,6 +28,13 @@ public class Size  implements java.io.Serializable {
         this.id = id;
         this.status = status;
     }
+
+    //////////////////////////
+    public Size(String code,String action) {
+
+    }
+    //////////////////////////
+
     public Size(int id, String name, Integer width, Integer height, String measureUnit, String remark, boolean status, Set<ProductHasSize> productHasSizes) {
        this.id = id;
        this.name = name;

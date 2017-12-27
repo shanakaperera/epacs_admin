@@ -11,23 +11,24 @@ import java.util.Set;
 public class Product  implements java.io.Serializable {
 
 
-     private Integer id;
-     private String code;
-     private String title;
-     private String boldText;
-     private String homeDescription;
-     private String shortDescription;
-     private String longDescription;
-     private String homeImgPath;
-     private String detailImgPath;
-     private String imgTitle1;
-     private String imgTitle2;
-     private String sizeImgPath;
-     private String borderImgPath;
-     private String sideViewsImg;
-     private Set<ProductHasFitting> productHasFittings = new HashSet<>();
-     private Set<ProductHasCoating> productHasCoatings = new HashSet<>();
-     private Set<ProductHasSize> productHasSizes = new HashSet<>();
+    private Integer id;
+    private String code;
+    private String title;
+    private String boldText;
+    private String homeDescription;
+    private String shortDescription;
+    private String longDescription;
+    private String homeImgPath;
+    private String detailImgPath;
+    private String imgTitle1;
+    private String imgTitle2;
+    private String sizeImgPath;
+    private String borderImgPath;
+    private String sideViewsImg;
+    private Set<ProductHasFitting> productHasFittings = new HashSet<>();
+    private Set<ProductHasCoating> productHasCoatings = new HashSet<>();
+    private Set<ProductHasSize> productHasSizes = new HashSet<>();
+    private  String action;
 
     public Product() {
     }
@@ -50,7 +51,12 @@ public class Product  implements java.io.Serializable {
        this.productHasCoatings = productHasCoatings;
        this.productHasSizes = productHasSizes;
     }
-   
+
+    public Product(String code, String action) {
+        this.code = code;
+        this.action = action;
+    }
+
     public Integer getId() {
         return this.id;
     }

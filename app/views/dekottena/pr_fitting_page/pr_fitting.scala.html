@@ -1,4 +1,4 @@
-@index("Product Fitting") {
+@(fittingForm: play.data.Form[models.Fitting]) @index("Product Fitting") {
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -24,7 +24,7 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content("Product Coating")
+        @content(fittingForm)
             <!-- /page content -->
 
             <!-- footer content -->
