@@ -1,0 +1,77 @@
+@(f_form: play.data.Form[models.Fitting])
+
+    @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Product Fitting</h3>
+            </div>
+            @general_content.search_field("search field")
+        </div>
+        <div class="clearfix"></div>
+        @general_content.notification_section("notification section")
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Coating</h2>
+
+                        <div class="pull-right">
+                            <button class="btn btn-primary" type="reset">Newww</button>
+                            <button class="btn btn-danger" type="reset">Deactivatewww</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br/>
+
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_content1" id="home-tab" role="tab"
+                                    data-toggle="tab"
+                                    aria-expanded="true">Coating Info</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content2" role="tab" id="profile-tab"
+                                    data-toggle="tab" aria-expanded="false">Extra Info</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+                                aria-labelledby="home-tab">
+                                @b3.form(controllers.dekottena.routes.ProductFittingController.save(), 'id -> "f_form") {
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            @b3.text(f_form("title"),
+                                                'id -> "c_title", 'class -> "form-control", '_label -> "Title", '_error -> "ddd")
+                                            @b3.textarea(f_form("description"),
+                                                'id -> "c_desc", 'class -> "form-control", '_label -> "Description")
+                                            @b3.text(f_form("charge"),
+                                                'id -> "c_charge", 'class -> "form-control", '_label -> "Charge")
+                                            @b3.textarea(f_form("remark"),
+                                                'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    @b3.submit('class -> "btn btn-success pull-right"){ Save }
+                                    @b3.submit('class -> "btn btn-success pull-right"){ Delete }
+                                    @b3.button('class -> "btn btn-primary pull-right"){ Clear }
+                                }
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2"
+                                aria-labelledby="profile-tab">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
