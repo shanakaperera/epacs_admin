@@ -1,6 +1,8 @@
-@(s_form: play.data.Form[models.Size])
+@(s_action: String, s_form: play.data.Form[models.Size])
 
-@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+@implicitFieldConstructor = @{
+    b3.horizontal.fieldConstructor("col-md-2", "col-md-10")
+}
 
 <div class="right_col" role="main">
     <div class="">
@@ -16,7 +18,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Size</h2>
+                        <h2>@s_action</h2>
 
                         <div class="pull-right">
                             <button class="btn btn-primary" type="reset">New</button>
@@ -32,7 +34,7 @@
                                 <li role="presentation" class="active">
                                     <a href="#tab_content1" id="home-tab" role="tab"
                                     data-toggle="tab"
-                                    aria-expanded="true">Coating Info</a>
+                                    aria-expanded="true">Product Size Info</a>
                                 </li>
                                 <li role="presentation" class="">
                                     <a href="#tab_content2" role="tab" id="profile-tab"
@@ -46,20 +48,30 @@
 
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
-                                            @b3.text(s_form("title"),
-                                                'id -> "c_title", 'class -> "form-control", '_label -> "Title", '_error -> play.api.data.FormError)
-                                            @b3.textarea(s_form("description"),
-                                                'id -> "c_desc", 'class -> "form-control", '_label -> "Description")
-                                            @b3.text(s_form("charge"),
-                                                'id -> "s_charge", 'class -> "form-control", '_label -> "Charge")
+                                            @b3.text(s_form("name"),
+                                                'id -> "s_name", 'class -> "form-control", '_label -> "Size Name")
+                                            @b3.number(s_form("width"),
+                                                'id -> "s_width", 'class -> "form-control", '_label -> "Width")
+                                            @b3.number(s_form("height"),
+                                                'id -> "s_height", 'class -> "form-control", '_label -> "Height")
+                                            @b3.select(s_form("measureUnit"), options = Seq(
+                                                "mm" -> "Millimeters",
+                                                "cm" -> "Centimeters",
+                                                "inches" -> "Inches"
+                                            ),
+                                                'id -> "s_munit", 'class -> "form-control",
+                                                '_label -> "Measure Unit")
                                             @b3.textarea(s_form("remark"),
-                                                'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+                                                'id -> "s_remark", 'class -> "form-control", '_label -> "Remark")
+                                            @b3.checkbox(s_form("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
                                         </div>
                                     </div>
 
                                     <div class="ln_solid"></div>
-                                    @b3.submit('class -> "btn btn-success"){ Save }
-                                    @b3.button('class -> "btn btn-primary"){ Restore Back }
+                                    @b3.free('_id -> "btn_group") {
+                                        <button type="submit" class="btn btn-success"> Save</button>
+                                        <button type="button" class="btn btn-primary"> Restore Back</button>
+                                    }
                                 }
                                 </div>
 

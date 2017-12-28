@@ -5,6 +5,7 @@ package models;
 import play.data.validation.Constraints.*;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +26,7 @@ public class Coating implements Serializable {
     private String remark;
     private boolean status;
     private Set<models.ProductHasCoating> productHasCoatings = new HashSet<>();
+    private String imgName;
 
     public Coating() {
     }
@@ -116,6 +118,13 @@ public class Coating implements Serializable {
         this.productHasCoatings = productHasCoatings;
     }
 
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
 }
 
 

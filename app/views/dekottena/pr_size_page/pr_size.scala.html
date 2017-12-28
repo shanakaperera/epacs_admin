@@ -1,4 +1,4 @@
-@(sizeForm: play.data.Form[models.Size]) @index("Product Size"){
+@(s_action: String, sizeForm: play.data.Form[models.Size]) @index("Product Size"){
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -24,7 +24,7 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(sizeForm)
+        @content(s_action,sizeForm)
             <!-- /page content -->
 
             <!-- footer content -->

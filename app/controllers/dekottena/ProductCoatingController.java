@@ -1,16 +1,27 @@
 package controllers.dekottena;
 
+import com.google.common.io.CharStreams;
 import models.Coating;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import play.Play;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.*;
 import services.DocSeqHandler;
 import services.HibernateUtil;
+import services.MyMultipartFormDataBodyParser;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class ProductCoatingController extends Controller {
 
@@ -29,9 +40,15 @@ public class ProductCoatingController extends Controller {
 
     }
 
-    public Result save() {
+    @BodyParser.Of(MyMultipartFormDataBodyParser.class)
+    public Result save() throws IOException {
 
         Form<Coating> new_coating = formFactory.form(Coating.class).bindFromRequest();
+
+        final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
+        final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
+        final File file = filePart.getFile();
+        //final long data = operateOnTempFile(file);
 
         if (new_coating.hasErrors()) {
 
@@ -44,8 +61,19 @@ public class ProductCoatingController extends Controller {
         } else {
             Coating coating = new_coating.get();
             Session s = HibernateUtil.getSessionFactory().openSession();
-            s.save(coating);
             s.beginTransaction();
+
+            String _tpath = "";
+//
+//            String _tpath = CharStreams
+//                    .toString(new InputStreamReader(Play.application().path().getPath(), StandardCharsets.UTF_8));
+//            System.out.println("PATH - " + _tpath);
+            if (file != null && file.exists()) {
+                Path copy_path = Files.write(Paths.get(_tpath), Files.readAllBytes(file.toPath()));
+                coating.setImgPath(copy_path.toAbsolutePath().toString());
+            }
+
+            s.save(coating);
             s.getTransaction().commit();
             s.close();
             flash("success", "Successfully Saved.");
@@ -81,4 +109,10 @@ public class ProductCoatingController extends Controller {
         }
     }
 
+
+    private long operateOnTempFile(File file) throws IOException {
+        final long size = Files.size(file.toPath());
+        Files.deleteIfExists(file.toPath());
+        return size;
+    }
 }

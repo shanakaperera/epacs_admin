@@ -61,6 +61,9 @@
                                             @b3.hidden(c_form("code"), 'value -> coating_code)
                                             @b3.hidden(c_form("coatingAction"), 'value -> coating_action)
                                         </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                        @b3.file(c_form("imgName"), '_label -> "Coating Image")
+                                        </div>
                                     </div>
                                     <div class="ln_solid"></div>
                                     @b3.free('_id -> "btn_group") {

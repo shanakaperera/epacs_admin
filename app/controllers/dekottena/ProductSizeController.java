@@ -19,7 +19,7 @@ public class ProductSizeController extends Controller {
         String action = "New Product Size";
         Form<Size> sizeForm = formFactory.form(Size.class);
 
-        return ok(views.html.dekottena.pr_size_page.pr_size.render(sizeForm));
+        return ok(views.html.dekottena.pr_size_page.pr_size.render(action, sizeForm));
     }
 
     public Result save() {
@@ -30,7 +30,7 @@ public class ProductSizeController extends Controller {
 
             String action = "New Product Size";
             flash("danger", "Please correct the below form.");
-            return badRequest(views.html.dekottena.pr_size_page.pr_size.render(new_size));
+            return badRequest(views.html.dekottena.pr_size_page.pr_size.render(action, new_size));
 
         } else {
 
@@ -40,6 +40,7 @@ public class ProductSizeController extends Controller {
             s.beginTransaction();
             s.getTransaction().commit();
             s.close();
+            flash("success", "Successfully Saved.");
             return redirect(routes.ProductCoatingController.home());
         }
 

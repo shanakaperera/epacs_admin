@@ -24,7 +24,6 @@ public class ProductController extends Controller {
         String code = getNextProductSequence();
         Form<Product> productForm = formFactory.form(Product.class);
 
-
         return ok(views.html.dekottena.product_page.product.render(code, action, productForm));
     }
 

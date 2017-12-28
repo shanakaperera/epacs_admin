@@ -2,6 +2,8 @@ package models;
 // Generated Dec 24, 2017 5:32:35 PM by Hibernate Tools 4.3.1
 
 
+import play.data.validation.Constraints;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,9 +14,13 @@ public class Size  implements java.io.Serializable {
 
 
      private int id;
+     @Constraints.Required(message = "Size name is not optional")
      private String name;
+    @Constraints.Required(message = "Width is not optional")
      private Integer width;
+    @Constraints.Required(message = "Height is not optional")
      private Integer height;
+    @Constraints.Required(message = "Measure unit is not optional")
      private String measureUnit;
      private String remark;
      private boolean status;
