@@ -27,6 +27,7 @@
         <mapping resource="mappings/ProductHasFitting.hbm.xml"/>
         <mapping resource="mappings/Size.hbm.xml"/>
         <mapping resource="mappings/Price.hbm.xml"/>
+        <mapping resource="mappings/DocSequnce.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

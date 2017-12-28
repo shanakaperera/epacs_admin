@@ -28,7 +28,6 @@ public class Product  implements java.io.Serializable {
     private Set<ProductHasFitting> productHasFittings = new HashSet<>();
     private Set<ProductHasCoating> productHasCoatings = new HashSet<>();
     private Set<ProductHasSize> productHasSizes = new HashSet<>();
-    private  String action;
 
     public Product() {
     }
@@ -50,11 +49,6 @@ public class Product  implements java.io.Serializable {
        this.productHasFittings = productHasFittings;
        this.productHasCoatings = productHasCoatings;
        this.productHasSizes = productHasSizes;
-    }
-
-    public Product(String code, String action) {
-        this.code = code;
-        this.action = action;
     }
 
     public Integer getId() {

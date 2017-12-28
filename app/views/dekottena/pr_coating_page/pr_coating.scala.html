@@ -1,4 +1,4 @@
-@(coatingForm: play.data.Form[models.Coating]) @index("Product Coating"){
+@(coating_code: String, coating_action: String, coatingForm: play.data.Form[models.Coating]) @index("Product Coating"){
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -24,7 +24,7 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(coatingForm)
+        @content(coating_code,coating_action,coatingForm)
             <!-- /page content -->
 
             <!-- footer content -->

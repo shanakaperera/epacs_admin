@@ -16,26 +16,33 @@ public class ProductSizeController extends Controller {
 
     public Result home() {
 
-        String action = "New Coating";
-        String code = "Si005";
+        String action = "New Product Size";
         Form<Size> sizeForm = formFactory.form(Size.class);
-        Size preSize = new Size(code, action);
-        sizeForm.fill(preSize);
 
         return ok(views.html.dekottena.pr_size_page.pr_size.render(sizeForm));
     }
 
     public Result save() {
 
-        Form<Size> new_zise = formFactory.form(Size.class).bindFromRequest();
-        Size size = new_zise.get();
-        Session s = HibernateUtil.getSessionFactory().openSession();
-        s.save(size);
-        s.beginTransaction();
-        s.getTransaction().commit();
-        s.close();
+        Form<Size> new_size = formFactory.form(Size.class).bindFromRequest();
 
-        return redirect(routes.ProductCoatingController.home());
+        if (new_size.hasErrors()) {
+
+            String action = "New Product Size";
+            flash("danger", "Please correct the below form.");
+            return badRequest(views.html.dekottena.pr_size_page.pr_size.render(new_size));
+
+        } else {
+
+            Size size = new_size.get();
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            s.save(size);
+            s.beginTransaction();
+            s.getTransaction().commit();
+            s.close();
+            return redirect(routes.ProductCoatingController.home());
+        }
+
     }
 
     public Result update(Integer id) {

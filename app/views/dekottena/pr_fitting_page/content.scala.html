@@ -1,4 +1,4 @@
-@(f_form: play.data.Form[models.Fitting])
+@(fitting_code: String, fitting_action: String, f_form: play.data.Form[models.Fitting])
 
     @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 <div class="right_col" role="main">
@@ -15,11 +15,11 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Coating</h2>
+                        <h2>@fitting_action - @fitting_code</h2>
 
                         <div class="pull-right">
-                            <button class="btn btn-primary" type="reset">Newww</button>
-                            <button class="btn btn-danger" type="reset">Deactivatewww</button>
+                            <button class="btn btn-primary" type="reset">New</button>
+                            <button class="btn btn-danger" type="reset">Deactivate</button>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -31,7 +31,7 @@
                                 <li role="presentation" class="active">
                                     <a href="#tab_content1" id="home-tab" role="tab"
                                     data-toggle="tab"
-                                    aria-expanded="true">Coating Info</a>
+                                    aria-expanded="true">Fitting Info</a>
                                 </li>
                                 <li role="presentation" class="">
                                     <a href="#tab_content2" role="tab" id="profile-tab"
@@ -41,25 +41,30 @@
                             <div id="myTabContent" class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                 aria-labelledby="home-tab">
-                                @b3.form(controllers.dekottena.routes.ProductFittingController.save(), 'id -> "f_form") {
+                                @b3.formCSRF(controllers.dekottena.routes.ProductFittingController.save(), 'id -> "f_form",
+                                    'enctype -> "multipart/form-data") {
 
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
                                             @b3.text(f_form("title"),
-                                                'id -> "c_title", 'class -> "form-control", '_label -> "Title", '_error -> "ddd")
+                                                'id -> "c_title", 'class -> "form-control", '_label -> "Title")
                                             @b3.textarea(f_form("description"),
                                                 'id -> "c_desc", 'class -> "form-control", '_label -> "Description")
                                             @b3.text(f_form("charge"),
                                                 'id -> "c_charge", 'class -> "form-control", '_label -> "Charge")
                                             @b3.textarea(f_form("remark"),
                                                 'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+                                            @b3.checkbox(f_form("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
+                                            @b3.hidden(f_form("code"), 'value -> fitting_code)
+                                            @b3.hidden(f_form("coatingAction"), 'value -> fitting_action)
                                         </div>
                                     </div>
 
                                     <div class="ln_solid"></div>
-                                    @b3.submit('class -> "btn btn-success pull-right"){ Save }
-                                    @b3.submit('class -> "btn btn-success pull-right"){ Delete }
-                                    @b3.button('class -> "btn btn-primary pull-right"){ Clear }
+                                    @b3.free('_id -> "btn_group") {
+                                        <button type="submit" class="btn btn-success"> Save</button>
+                                        <button type="button" class="btn btn-primary"> Restore Back</button>
+                                    }
                                 }
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="tab_content2"

@@ -1,4 +1,4 @@
-@(c_form: play.data.Form[models.Coating])
+@(coating_code: String, coating_action: String, c_form: play.data.Form[models.Coating])
 
 @implicitFieldConstructor = @{
     b3.horizontal.fieldConstructor("col-md-2", "col-md-10")
@@ -18,7 +18,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>@c_form.get().getCoatingAction - @c_form.get().getCode </h2>
+                        <h2>@coating_action - @coating_code</h2>
 
                         <div class="pull-right">
                             <button class="btn btn-primary" type="reset">New</button>
@@ -44,7 +44,8 @@
                             <div id="myTabContent" class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                 aria-labelledby="home-tab">
-                                @b3.formCSRF(controllers.dekottena.routes.ProductCoatingController.save(), 'id -> "co_form") {
+                                @b3.formCSRF(controllers.dekottena.routes.ProductCoatingController.save(), 'id -> "co_form",
+                                    'enctype -> "multipart/form-data") {
 
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -57,6 +58,8 @@
                                             @b3.textarea(c_form("remark"),
                                                 'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
                                             @b3.checkbox(c_form("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
+                                            @b3.hidden(c_form("code"), 'value -> coating_code)
+                                            @b3.hidden(c_form("coatingAction"), 'value -> coating_action)
                                         </div>
                                     </div>
                                     <div class="ln_solid"></div>
