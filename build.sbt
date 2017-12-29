@@ -19,11 +19,11 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
   "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B3"
 )
+libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.9.2"
 
 // Testing libraries for dealing with CompletionStage...
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test
 libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
-
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
 PlayKeys.externalizeResources := false

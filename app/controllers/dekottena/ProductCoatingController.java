@@ -1,6 +1,8 @@
 package controllers.dekottena;
 
-import com.google.common.io.CharStreams;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import models.Coating;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -11,16 +13,12 @@ import play.data.FormFactory;
 import play.mvc.*;
 import services.DocSeqHandler;
 import services.HibernateUtil;
+import services.MyAwsCredentials;
 import services.MyMultipartFormDataBodyParser;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class ProductCoatingController extends Controller {
@@ -47,6 +45,7 @@ public class ProductCoatingController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
+        final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
         //final long data = operateOnTempFile(file);
 
@@ -63,20 +62,25 @@ public class ProductCoatingController extends Controller {
             Session s = HibernateUtil.getSessionFactory().openSession();
             s.beginTransaction();
 
-            String _tpath = "";
-//
-//            String _tpath = CharStreams
-//                    .toString(new InputStreamReader(Play.application().path().getPath(), StandardCharsets.UTF_8));
-//            System.out.println("PATH - " + _tpath);
             if (file != null && file.exists()) {
-                Path copy_path = Files.write(Paths.get(_tpath), Files.readAllBytes(file.toPath()));
-                coating.setImgPath(copy_path.toAbsolutePath().toString());
+
+                MyAwsCredentials s3 = new MyAwsCredentials();
+                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                        s3.getUpFolder(file_name), file)
+                        .withCannedAcl(CannedAccessControlList.PublicRead);
+                AmazonS3Client client = s3.getClient();
+                client.putObject(object_saved);
+
+                coating.setImgPath(Play.application().configuration().getString("env.file_download_path")
+                        .concat(Play.application().configuration().getString("env.file_upload_folder"))
+                        .concat(file_name)
+                );
             }
 
             s.save(coating);
             s.getTransaction().commit();
             s.close();
-            flash("success", "Successfully Saved.");
+            flash("success", "Successfully Saved. ");
             return redirect(routes.ProductCoatingController.home());
         }
 
@@ -110,9 +114,9 @@ public class ProductCoatingController extends Controller {
     }
 
 
-    private long operateOnTempFile(File file) throws IOException {
-        final long size = Files.size(file.toPath());
-        Files.deleteIfExists(file.toPath());
-        return size;
-    }
+//    private long operateOnTempFile(File file) throws IOException {
+//        final long size = Files.size(file.toPath());
+//        Files.deleteIfExists(file.toPath());
+//        return size;
+//    }
 }
