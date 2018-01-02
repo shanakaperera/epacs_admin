@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 2, 2018 1:32:33 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.DkcmsSlider" table="dkcms_slider" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="titleEn" type="string">
+            <column name="title_en" length="45" />
+        </property>
+        <property name="titleJp" type="string">
+            <column name="title_jp" length="45" />
+        </property>
+        <property name="descriptionEn" type="string">
+            <column name="description_en" length="65535" />
+        </property>
+        <property name="descriptionJp" type="string">
+            <column name="description_jp" length="65535" />
+        </property>
+        <property name="btnUrl" type="string">
+            <column name="btn_url" length="65535" />
+        </property>
+        <property name="imgUrl" type="string">
+            <column name="img_url" length="65535" />
+        </property>
+        <property name="status" type="boolean">
+            <column name="status" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

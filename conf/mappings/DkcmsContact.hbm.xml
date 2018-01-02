@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 2, 2018 6:48:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="models.DkcmsContact" table="dkcms_contact" catalog="epacs_db" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="mapLan" type="string">
+            <column name="map_lan" length="20" />
+        </property>
+        <property name="mapLon" type="string">
+            <column name="map_lon" length="20" />
+        </property>
+        <property name="informationEn" type="string">
+            <column name="information_en" length="65535" />
+        </property>
+        <property name="informationJp" type="string">
+            <column name="information_jp" length="65535" />
+        </property>
+        <property name="addressEn" type="string">
+            <column name="address_en" length="65535" />
+        </property>
+        <property name="addressJp" type="string">
+            <column name="address_jp" length="65535" />
+        </property>
+        <property name="contEmail" type="string">
+            <column name="cont_email" length="45" />
+        </property>
+        <property name="tel" type="string">
+            <column name="tel" length="45" />
+        </property>
+        <property name="website" type="string">
+            <column name="website" length="45" />
+        </property>
+        <property name="submitMail" type="string">
+            <column name="submit_mail" length="45" />
+        </property>
+        <property name="fbUrl" type="string">
+            <column name="fb_url" length="65535" />
+        </property>
+        <property name="twitterUrl" type="string">
+            <column name="twitter_url" length="65535" />
+        </property>
+        <property name="googleplusUrl" type="string">
+            <column name="googleplus_url" length="65535" />
+        </property>
+        <property name="insterUrl" type="string">
+            <column name="inster_url" length="65535" />
+        </property>
+    </class>
+</hibernate-mapping>

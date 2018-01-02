@@ -28,6 +28,10 @@
         <mapping resource="mappings/Size.hbm.xml"/>
         <mapping resource="mappings/Price.hbm.xml"/>
         <mapping resource="mappings/DocSequnce.hbm.xml"/>
+        <mapping resource="mappings/DkcmsAbout.hbm.xml"/>
+        <mapping resource="mappings/DkcmsContact.hbm.xml"/>
+        <mapping resource="mappings/DkcmsAbtUrl.hbm.xml"/>
+        <mapping resource="mappings/DkcmsSlider.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>
