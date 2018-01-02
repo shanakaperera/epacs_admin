@@ -24,6 +24,23 @@ GET     /dekottena/product_fitting        controllers.dekottena.ProductFittingCo
 # show Dekottena product size Page
 GET     /dekottena/product_size       controllers.dekottena.ProductSizeController.home
 
+
+#Dekottena CMS
+
+# show Dekottena cms about
+GET     /dekottena/cms/about-us       controllers.dekottena.cmsaboutController.home
+
+# show Dekottena cms about
+GET     /dekottena/cms/contact-us       controllers.dekottena.cmsaboutController.home
+
+# show Dekottena cms about
+GET     /dekottena/cms/gallery       controllers.dekottena.cmsaboutController.home
+
+# show Dekottena cms about
+GET     /dekottena/cms/home       controllers.dekottena.cmsaboutController.home
+
+
+
 # save Dekottena product coating
 POST   /dekottena/product_coating/coating_save            controllers.dekottena.ProductCoatingController.save
 
