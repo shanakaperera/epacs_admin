@@ -1,9 +1,9 @@
-@(aboutForm: play.data.Form[models.DkcmsAbout]) @index("About us"){
+@(contactForm: play.data.Form[models.DkcmsContact]) @index("Contact us"){
 
     <div class="main_container">
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
-                @general_content.header("Dekottena About us")
+                @general_content.header("Dekottena Contact Us")
 
                     <!-- menu profile quick info -->
                 @general_content.side_bar_header("side bar header")
@@ -24,7 +24,7 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(aboutForm)
+        @content(contactForm)
             <!-- /page content -->
 
             <!-- footer content -->

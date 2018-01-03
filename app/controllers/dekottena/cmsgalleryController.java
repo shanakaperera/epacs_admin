@@ -8,4 +8,8 @@ public class cmsgalleryController extends Controller {
 //        return ok(views.html.dekottena.cms.gallery.gallery.render());
         return null;
     }
+
+    public Result save() {
+        return null;
+    }
 }

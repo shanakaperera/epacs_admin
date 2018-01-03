@@ -30,15 +30,23 @@ GET     /dekottena/product_size       controllers.dekottena.ProductSizeControlle
 # show Dekottena cms about
 GET     /dekottena/cms/about-us       controllers.dekottena.cmsaboutController.home
 
-# show Dekottena cms about
-GET     /dekottena/cms/contact-us       controllers.dekottena.cmsaboutController.home
+# show Dekottena cms contact
+GET     /dekottena/cms/contact-us       controllers.dekottena.cmscontactController.home
 
-# show Dekottena cms about
-GET     /dekottena/cms/gallery       controllers.dekottena.cmsaboutController.home
+# show Dekottena cms gallery
+GET     /dekottena/cms/gallery       controllers.dekottena.cmsgalleryController.home
 
-# show Dekottena cms about
-GET     /dekottena/cms/home       controllers.dekottena.cmsaboutController.home
+# show Dekottena cms hoome
+GET     /dekottena/cms/home       controllers.dekottena.cmshomeController.home
 
+# show Dekottena cms about Save
+POST     /dekottena/cms/about-save       controllers.dekottena.cmsaboutController.save
+
+# show Dekottena cms contact Save
+POST     /dekottena/cms/contact-save       controllers.dekottena.cmscontactController.save
+
+# show Dekottena cms home save
+POST     /dekottena/cms/home-save       controllers.dekottena.cmshomeController.save
 
 
 # save Dekottena product coating

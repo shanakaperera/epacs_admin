@@ -1,5 +1,6 @@
 package controllers.dekottena;
 
+import models.DkcmsAbout;
 import models.Fitting;
 import play.data.Form;
 import play.data.FormFactory;
@@ -10,17 +11,17 @@ import javax.inject.Inject;
 public class cmsaboutController extends Controller {
     @Inject
     FormFactory formfactoroy;
-    private static final String TABLE_NAME = "sss";
+
 
     public Result home() {
 
-        String fitting_action = "New Fitting";
-        String fitting_code = "ww";
+        Form<DkcmsAbout> aboutForm = formfactoroy.form(DkcmsAbout.class);
 
+        return ok(views.html.dekottena.cms.about.about.render(aboutForm));
+    }
 
-        Form<Fitting> fittingForm = formfactoroy.form(Fitting.class);
-
-        return ok(views.html.dekottena.cms.about.about.render(null));
+    public Result save() {
+        return null;
     }
 
 }
