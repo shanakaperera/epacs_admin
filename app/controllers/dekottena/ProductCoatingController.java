@@ -3,7 +3,9 @@ package controllers.dekottena;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.google.common.base.CharMatcher;
 import models.Coating;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -19,6 +21,9 @@ import services.MyMultipartFormDataBodyParser;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+
+import static validators.CustomValidator.IsValidImageSize;
 
 
 public class ProductCoatingController extends Controller {
@@ -35,7 +40,6 @@ public class ProductCoatingController extends Controller {
         Form<Coating> coatingForm = formFactory.form(Coating.class);
         return ok(views.html.dekottena.pr_coating_page.pr_coating
                 .render(coating_code, coating_action, coatingForm));
-
     }
 
     @BodyParser.Of(MyMultipartFormDataBodyParser.class)
@@ -47,12 +51,11 @@ public class ProductCoatingController extends Controller {
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
         final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
-        //final long data = operateOnTempFile(file);
+
+        String coating_action = "New Coating";
+        String coating_code = getNextCoatingSequence();
 
         if (new_coating.hasErrors()) {
-
-            String coating_action = "New Coating";
-            String coating_code = getNextCoatingSequence();
 
             flash("danger", "Please correct the below form.");
             return badRequest(views.html.dekottena.pr_coating_page.pr_coating
@@ -63,6 +66,17 @@ public class ProductCoatingController extends Controller {
             s.beginTransaction();
 
             if (file != null && file.exists()) {
+
+                long data = operateOnTempFile(file);
+                int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+                if (!IsValidImageSize(digit_part, 50, 257)) {
+
+                    flash("danger", "Image size should be between 50KB and 256KB.");
+                    return badRequest(views.html.dekottena.pr_coating_page.pr_coating
+                            .render(coating_code, coating_action, new_coating));
+
+                }
 
                 MyAwsCredentials s3 = new MyAwsCredentials();
                 PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
@@ -114,9 +128,9 @@ public class ProductCoatingController extends Controller {
     }
 
 
-//    private long operateOnTempFile(File file) throws IOException {
-//        final long size = Files.size(file.toPath());
-//        Files.deleteIfExists(file.toPath());
-//        return size;
-//    }
+    private long operateOnTempFile(File file) throws IOException {
+        return Files.size(file.toPath());
+        //Files.deleteIfExists(file.toPath());
+        // return size;
+    }
 }

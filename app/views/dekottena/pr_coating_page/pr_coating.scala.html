@@ -1,4 +1,4 @@
-@(coating_code: String, coating_action: String, coatingForm: play.data.Form[models.Coating]) @index("Product Coating"){
+@(coating_code: String, coating_action: String, coatingForm: play.data.Form[models.Coating]) @index("Product Coating") {
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -10,7 +10,11 @@
                     <!-- /menu profile quick info -->
                 <br/>
                     <!-- sidebar menu -->
-                @general_content.side_bar("side bar"){@views.html.dekottena.common.sidebar_general()}{@views.html.dekottena.common.sidebar_settings()}
+                @general_content.side_bar("side bar") {
+                    @views.html.dekottena.common.sidebar_general()
+                } {
+                    @views.html.dekottena.common.sidebar_settings()
+                }
                     <!-- /sidebar menu -->
 
                     <!-- /menu footer buttons -->
@@ -24,11 +28,37 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(coating_code,coating_action,coatingForm)
+        @content(coating_code, coating_action, coatingForm)
             <!-- /page content -->
 
             <!-- footer content -->
         @general_content.footer("footer")
             <!-- /footer content -->
     </div>
-}(null)
+} {
+    <script type="text/javascript">
+            function readURL(input) {
+
+                var dynamic = $('img').attr('id', 'dynamic');
+                if (dynamic) {
+                    dynamic.remove();
+                }
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var img = $('<img id="dynamic">');
+                        img.attr('src', e.target.result);
+                        img.css("max-width", "180px");
+                        img.insertBefore('#c_img');
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $('#c_img').change(function () {
+                readURL(this);
+            });
+    </script>
+}

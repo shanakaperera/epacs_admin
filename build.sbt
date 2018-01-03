@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   javaJpa,
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final"
 )
+libraryDependencies += "commons-io" % "commons-io" % "2.5"
 
 libraryDependencies ++= Seq(
   "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B3"
