@@ -1,4 +1,4 @@
-@(aboutForm: play.data.Form[models.DkcmsAbout]) @index("About us"){
+@(homeForm: play.data.Form[models.DkcmsSlider]) @index("About us"){
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -24,11 +24,11 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(aboutForm)
+        @content(homeForm)
             <!-- /page content -->
 
             <!-- footer content -->
         @general_content.footer("footer")
             <!-- /footer content -->
     </div>
-}(null)
+}(null)@()

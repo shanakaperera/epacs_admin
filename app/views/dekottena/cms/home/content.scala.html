@@ -1,4 +1,4 @@
-@(aboutForm: play.data.Form[models.DkcmsAbout])
+@(homeForm: play.data.Form[models.DkcmsSlider])
 
 @implicitFieldConstructor = @{
     b3.horizontal.fieldConstructor("col-md-4", "col-md-8")
@@ -8,7 +8,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>About us</h3>
+                <h3>Home</h3>
             </div>
 
         </div>
@@ -18,7 +18,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>About us</h2>
+                        <h2>Home</h2>
 
 
                         <div class="clearfix"></div>
@@ -31,27 +31,33 @@
                                 <li role="presentation" class="active">
                                     <a href="#tab_content1" id="home-tab" role="tab"
                                     data-toggle="tab"
-                                    aria-expanded="true">About us Page</a>
+                                    aria-expanded="true">Home Page</a>
                                 </li>
 
                             </ul>
                             <div id="myTabContent" class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                 aria-labelledby="home-tab">
-                                @b3.formCSRF(controllers.dekottena.routes.cmsaboutController.save(), 'id -> "abt_form") {
+                                @b3.formCSRF(controllers.dekottena.routes.cmshomeController.save(), 'id -> "abt_form") {
 
                                     <div class="row">
                                         <div class="col-md-8 col-sm-12 col-xs-12">
-                                            @b3.text(aboutForm("headingEn"),
-                                                'id -> "headingEn", 'class -> "form-control", '_label -> "About us Title(EN)")
+                                            @b3.text(homeForm("titleEn"),
+                                                'id -> "titleEn", 'class -> "form-control", '_label -> "Slider Image Title(EN)")
+                                            @b3.text(homeForm("titleJp"),
+                                                'id -> "titleJp", 'class -> "form-control", '_label -> "Slider Image Title(JP)")
 
-                                            @b3.text(aboutForm("headingJp"),
-                                                'id -> "headingJp", 'class -> "form-control", '_label -> "About us Title(JP)")
-                                            @b3.textarea(aboutForm("descriptionEn"),
+                                            @b3.textarea(homeForm("descriptionEn"),
                                                 'id -> "descriptionEn", 'class -> "form-control", '_label -> "Description(En)")
-                                            @b3.textarea(aboutForm("descriptionJp"),
+                                            @b3.textarea(homeForm("descriptionJp"),
                                                 'id -> "descriptionJp", 'class -> "form-control", '_label -> "Description(JP)")
-                                            @b3.file(aboutForm("imgUrl"), '_label -> "About us Image")
+
+                                            @b3.text(homeForm("btnUrl"),
+                                                'id -> "btnUrl", 'class -> "form-control", '_label -> "Button URL")
+
+                                            @b3.file(homeForm("imgUrl"), '_label -> "Slider Image")
+
+                                            @b3.checkbox(homeForm("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
 
                                             <div class="ln_solid"></div>
                                             @b3.free('_id -> "btn_group") {
