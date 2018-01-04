@@ -62,28 +62,28 @@ public class cmsaboutController extends Controller {
 
             if (file != null && file.exists()) {
 
-                long data = ImageHandler.operateOnTempFile(file);
-                int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
-
-                if (!IsValidImageSize(digit_part, 50, 257)) {
-
-                    flash("danger", "Image size should be between 50KB and 256KB.");
-                    return badRequest(views.html.dekottena.pr_coating_page.pr_coating
-                            .render(coating_code, coating_action, dList, new_coating));
-
-                }
-
-                MyAwsCredentials s3 = new MyAwsCredentials();
-                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
-                        s3.getUpFolder(file_name), file)
-                        .withCannedAcl(CannedAccessControlList.PublicRead);
-                AmazonS3Client client = s3.getClient();
-                client.putObject(object_saved);
-
-                coating.setImgPath(Play.application().configuration().getString("env.file_download_path")
-                        .concat(Play.application().configuration().getString("env.file_upload_folder"))
-                        .concat(file_name)
-                );
+//                long data = ImageHandler.operateOnTempFile(file);
+//                int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+//
+//                if (!IsValidImageSize(digit_part, 50, 257)) {
+//
+//                    flash("danger", "Image size should be between 50KB and 256KB.");
+//                    return badRequest(views.html.dekottena.pr_coating_page.pr_coating
+//                            .render(coating_code, coating_action, dList, new_coating));
+//
+//                }
+//
+//                MyAwsCredentials s3 = new MyAwsCredentials();
+//                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+//                        s3.getUpFolder(file_name), file)
+//                        .withCannedAcl(CannedAccessControlList.PublicRead);
+//                AmazonS3Client client = s3.getClient();
+//                client.putObject(object_saved);
+//
+//                coating.setImgPath(Play.application().configuration().getString("env.file_download_path")
+//                        .concat(Play.application().configuration().getString("env.file_upload_folder"))
+//                        .concat(file_name)
+//                );
             }
 
             s.save(coating);
