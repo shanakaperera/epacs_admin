@@ -44,7 +44,7 @@
                             <div id="myTabContent" class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                 aria-labelledby="home-tab">
-                                @b3.form(controllers.dekottena.routes.ProductSizeController.save(), 'id -> "s_form") {
+                                @b3.formCSRF(controllers.dekottena.routes.ProductSizeController.save(), 'id -> "s_form") {
 
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
