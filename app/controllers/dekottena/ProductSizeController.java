@@ -36,8 +36,8 @@ public class ProductSizeController extends Controller {
 
             Size size = new_size.get();
             Session s = HibernateUtil.getSessionFactory().openSession();
-            s.save(size);
             s.beginTransaction();
+            s.save(size);
             s.getTransaction().commit();
             s.close();
             flash("success", "Successfully Saved.");

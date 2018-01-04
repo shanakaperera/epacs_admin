@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.google.common.base.CharMatcher;
+import com.typesafe.config.ConfigFactory;
 import models.Fitting;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.Criteria;
@@ -88,8 +89,8 @@ public class ProductFittingController extends Controller {
                 AmazonS3Client client = s3.getClient();
                 client.putObject(object_saved);
 
-                fitting.setImgPath(Play.application().configuration().getString("env.file_download_path")
-                        .concat(Play.application().configuration().getString("env.file_upload_folder"))
+                fitting.setImgPath(ConfigFactory.load("aws.conf").getString("env.file_download_path")
+                        .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
                         .concat(file_name)
                 );
             }

@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.typesafe.config.ConfigFactory;
 import play.Play;
 
 import java.io.ByteArrayInputStream;
@@ -20,8 +21,8 @@ public class MyAwsCredentials {
 
     public MyAwsCredentials() {
 
-        credentials = new BasicAWSCredentials(Play.application().configuration().getString("env.aws_access_key_id"),
-                Play.application().configuration().getString("env.aws_secret_access_key"));
+        credentials = new BasicAWSCredentials(ConfigFactory.load("aws.conf").getString("env.aws_access_key_id"),
+                ConfigFactory.load("aws.conf").getString("env.aws_secret_access_key"));
     }
 
     public AmazonS3Client getClient() {
@@ -29,11 +30,11 @@ public class MyAwsCredentials {
     }
 
     public String getBucket() {
-        return Play.application().configuration().getString("env.bucket_name");
+        return ConfigFactory.load("aws.conf").getString("env.bucket_name");
     }
 
     public String getUpFolder(String file_name) {
-        return Play.application().configuration().getString("env.file_upload_folder") + file_name;
+        return ConfigFactory.load("aws.conf").getString("env.file_upload_folder") + file_name;
     }
 
     public void createFolder(String bucketName, String folderName, AmazonS3Client client) {
