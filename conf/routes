@@ -8,7 +8,7 @@ GET         /                                              controllers.LoginCont
 # show EPACS dashboard Page
 GET         /dashboard                                     controllers.DashBoardController.dashboard
 
-# ==========================================DEKOTTENA STARTS=============================================================
+# ==========================================DEKOTTENA STARTS============================================================
 # show Dekottena home Page
 GET         /dekottena/home                                controllers.dekottena.HomeController.home
 
@@ -19,7 +19,10 @@ GET         /dekottena/product                             controllers.dekottena
 GET         /dekottena/product_coating                     controllers.dekottena.ProductCoatingController.home
 
 # view & edit Dekottena product coating
-GET         /dekottena/product_coating/edit/:code        controllers.dekottena.ProductCoatingController.edit(code: String)
+GET         /dekottena/product_coating/edit/:code          controllers.dekottena.ProductCoatingController.edit(code: String)
+
+# update Dekottena product coating
+POST         /dekottena/product_coating/update              controllers.dekottena.ProductCoatingController.update
 
 # show Dekottena product fitting Page
 GET         /dekottena/product_fitting                     controllers.dekottena.ProductFittingController.home
@@ -59,9 +62,9 @@ POST        /dekottena/product_coating/coating_save        controllers.dekottena
 POST        /dekottena/fitting_save                        controllers.dekottena.ProductFittingController.save
 
 # save Dekottena product size
-POST        /dekottena/fitting_save                        controllers.dekottena.ProductSizeController.save
+POST        /dekottena/product_size/size_save              controllers.dekottena.ProductSizeController.save
 
-# save Dekottena product size
+# save Dekottena product save
 POST        /dekottena/product_save                        controllers.dekottena.ProductController.save
 
 

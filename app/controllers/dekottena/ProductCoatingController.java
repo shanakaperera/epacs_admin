@@ -11,6 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import play.Play;
 import play.data.Form;
@@ -105,7 +106,21 @@ public class ProductCoatingController extends Controller {
     }
 
     public Result edit(String code) {
-        return TODO;
+
+        String coating_action = "Edit Coating";
+        String dList = getDataList();
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Coating.class);
+        c.add(Restrictions.eq("code", code));
+        Coating fc = (Coating) c.uniqueResult();
+        if (fc == null) {
+            return notFound("Coating Not Found.");
+        }
+        Form<Coating> filterForm = formFactory.form(Coating.class).fill(fc);
+
+        return ok(views.html.dekottena.pr_coating_page.pr_coating
+                .render(code, coating_action, dList, filterForm));
     }
 
     public Result update() {
