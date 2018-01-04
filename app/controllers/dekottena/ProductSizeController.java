@@ -46,7 +46,11 @@ public class ProductSizeController extends Controller {
 
     }
 
-    public Result update(Integer id) {
+    public Result edit(Integer id) {
+        return TODO;
+    }
+
+    public Result update() {
         return TODO;
     }
 
