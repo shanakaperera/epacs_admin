@@ -18,8 +18,10 @@ public class Size implements java.io.Serializable {
     @Constraints.MinLength(value = 3, message = "Minimum length should be 3")
     private String name;
     @Constraints.Required(message = "Width is not optional")
+    @Constraints.Min(value = 0, message = "No negative values allowed")
     private Integer width;
     @Constraints.Required(message = "Height is not optional")
+    @Constraints.Min(value = 0, message = "No negative values allowed")
     private Integer height;
     @Constraints.Required(message = "Measure unit is not optional")
     private String measureUnit;

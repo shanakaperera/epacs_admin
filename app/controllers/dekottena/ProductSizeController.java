@@ -41,7 +41,7 @@ public class ProductSizeController extends Controller {
             s.getTransaction().commit();
             s.close();
             flash("success", "Successfully Saved.");
-            return redirect(routes.ProductCoatingController.home());
+            return redirect(routes.ProductSizeController.home());
         }
 
     }
