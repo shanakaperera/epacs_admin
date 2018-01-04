@@ -9,19 +9,19 @@ import org.apache.commons.io.FileUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import play.Play;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.*;
-import services.DocSeqHandler;
-import services.HibernateUtil;
-import services.MyAwsCredentials;
-import services.MyMultipartFormDataBodyParser;
+import services.*;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 
 import static validators.CustomValidator.IsValidImageSize;
 
@@ -37,9 +37,11 @@ public class ProductCoatingController extends Controller {
         String coating_action = "New Coating";
         String coating_code = getNextCoatingSequence();
 
+        String dList = getDataList();
+
         Form<Coating> coatingForm = formFactory.form(Coating.class);
         return ok(views.html.dekottena.pr_coating_page.pr_coating
-                .render(coating_code, coating_action, coatingForm));
+                .render(coating_code, coating_action, dList, coatingForm));
     }
 
     @BodyParser.Of(MyMultipartFormDataBodyParser.class)
@@ -54,12 +56,13 @@ public class ProductCoatingController extends Controller {
 
         String coating_action = "New Coating";
         String coating_code = getNextCoatingSequence();
+        String dList = getDataList();
 
         if (new_coating.hasErrors()) {
 
             flash("danger", "Please correct the below form.");
             return badRequest(views.html.dekottena.pr_coating_page.pr_coating
-                    .render(coating_code, coating_action, new_coating));
+                    .render(coating_code, coating_action, dList, new_coating));
         } else {
             Coating coating = new_coating.get();
             Session s = HibernateUtil.getSessionFactory().openSession();
@@ -67,14 +70,14 @@ public class ProductCoatingController extends Controller {
 
             if (file != null && file.exists()) {
 
-                long data = operateOnTempFile(file);
+                long data = ImageHandler.operateOnTempFile(file);
                 int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
 
                 if (!IsValidImageSize(digit_part, 50, 257)) {
 
                     flash("danger", "Image size should be between 50KB and 256KB.");
                     return badRequest(views.html.dekottena.pr_coating_page.pr_coating
-                            .render(coating_code, coating_action, new_coating));
+                            .render(coating_code, coating_action, dList, new_coating));
 
                 }
 
@@ -100,11 +103,15 @@ public class ProductCoatingController extends Controller {
 
     }
 
-    public Result update(Integer id) {
+    public Result edit(String code) {
         return TODO;
     }
 
-    public Result delete(Integer id) {
+    public Result update() {
+        return TODO;
+    }
+
+    public Result delete(String code) {
         return TODO;
     }
 
@@ -127,10 +134,25 @@ public class ProductCoatingController extends Controller {
         }
     }
 
+    private String getDataList() {
 
-    private long operateOnTempFile(File file) throws IOException {
-        return Files.size(file.toPath());
-        //Files.deleteIfExists(file.toPath());
-        // return size;
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Coating.class);
+        c.setProjection(Projections.projectionList()
+                .add(Projections.property("code"), "code")
+                .add(Projections.property("title"), "title")
+        );
+        c.setResultTransformer(Transformers.aliasToBean(Coating.class));
+        List<Coating> cList = c.list();
+
+        String dList = "";
+        for (Coating co : cList) {
+            dList += "<option value='" + co.getCode() + "'>" + co.getTitle() + "</option>";
+        }
+
+        s.close();
+        return dList;
     }
+
+
 }
