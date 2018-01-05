@@ -53,8 +53,7 @@ public class ProductCoatingController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
-        final String file_name = filePart.getFilename();
-        final File file = filePart.getFile();
+
 
         String coating_action = "New Coating";
         String coating_code = getNextCoatingSequence();
@@ -70,10 +69,15 @@ public class ProductCoatingController extends Controller {
             Session s = HibernateUtil.getSessionFactory().openSession();
             s.beginTransaction();
 
-            if (file != null && file.exists()) {
+            if (filePart != null) {
+
+                String file_name = filePart.getFilename();
+                File file = filePart.getFile();
 
                 long data = ImageHandler.operateOnTempFile(file);
                 int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+                System.out.println("DP - " + digit_part);
 
                 if (!IsValidImageSize(digit_part, 50, 257)) {
 
@@ -115,7 +119,8 @@ public class ProductCoatingController extends Controller {
         c.add(Restrictions.eq("code", code));
         Coating fc = (Coating) c.uniqueResult();
         if (fc == null) {
-            return notFound("Coating Not Found.");
+            flash("danger", "No coating found with given name.");
+            return redirect(routes.ProductCoatingController.home());
         }
         Form<Coating> filterForm = formFactory.form(Coating.class).fill(fc);
 
@@ -123,8 +128,65 @@ public class ProductCoatingController extends Controller {
                 .render(code, coating_action, dList, filterForm));
     }
 
-    public Result update() {
-        return TODO;
+    @BodyParser.Of(MyMultipartFormDataBodyParser.class)
+    public Result update() throws IOException {
+
+        Form<Coating> update_coating = formFactory.form(Coating.class).bindFromRequest();
+
+        final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
+        final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
+
+        String coating_action = "Edit Coating";
+        Coating coating = update_coating.get();
+        String dList = getDataList();
+
+        if (update_coating.hasErrors()) {
+
+            flash("danger", "Please correct the below form.");
+            return badRequest(views.html.dekottena.pr_coating_page.pr_coating
+                    .render(coating.getCode(), coating_action, dList, update_coating));
+        } else {
+
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            s.beginTransaction();
+
+            if (filePart != null) {
+
+                String file_name = filePart.getFilename();
+                File file = filePart.getFile();
+
+                long data = ImageHandler.operateOnTempFile(file);
+                int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+                if (!IsValidImageSize(digit_part, 50, 257)) {
+
+                    flash("danger", "Image size should be between 50KB and 256KB.");
+                    return badRequest(views.html.dekottena.pr_coating_page.pr_coating
+                            .render(coating.getCode(), coating_action, dList, update_coating));
+
+                }
+
+                MyAwsCredentials s3 = new MyAwsCredentials();
+                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                        s3.getUpFolder(file_name), file)
+                        .withCannedAcl(CannedAccessControlList.PublicRead);
+                AmazonS3Client client = s3.getClient();
+                client.putObject(object_saved);
+
+                coating.setImgPath(ConfigFactory.load("aws.conf").getString("env.file_download_path")
+                        .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                        .concat(file_name)
+                );
+            }
+
+            s.update(coating);
+            s.getTransaction().commit();
+            s.close();
+            flash("success", "Successfully Updated. ");
+            return redirect(routes.ProductCoatingController.edit(coating.getCode()));
+        }
+
+
     }
 
     public Result delete(String code) {

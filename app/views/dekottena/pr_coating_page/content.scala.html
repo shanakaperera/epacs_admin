@@ -1,4 +1,3 @@
-
 @(coating_code: String, coating_action: String, dList: String, c_form: play.data.Form[models.Coating])
 
 <div class="right_col" role="main">
@@ -18,7 +17,7 @@
                         <h2>@coating_action - @coating_code</h2>
 
                         <div class="pull-right">
-                            <button class="btn btn-primary" type="reset">New</button>
+                            <a class="btn btn-primary" href="@controllers.dekottena.routes.ProductCoatingController.home()">New</a>
                             <button class="btn btn-danger" type="reset">Deactivate</button>
                         </div>
                         <div class="clearfix"></div>
