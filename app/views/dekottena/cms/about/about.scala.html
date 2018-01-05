@@ -1,4 +1,5 @@
-@(aboutForm: play.data.Form[models.DkcmsAbout]) @index("About us"){
+@(aboutForm: play.data.Form[models.DkcmsAbout])
+@index("About us") {
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -10,7 +11,11 @@
                     <!-- /menu profile quick info -->
                 <br/>
                     <!-- sidebar menu -->
-                @general_content.side_bar("side bar"){@views.html.dekottena.common.sidebar_general()}{@views.html.dekottena.common.sidebar_settings()}
+                @general_content.side_bar("side bar") {
+                    @views.html.dekottena.common.sidebar_general()
+                } {
+                    @views.html.dekottena.common.sidebar_settings()
+                }
                     <!-- /sidebar menu -->
 
                     <!-- /menu footer buttons -->
@@ -31,4 +36,13 @@
         @general_content.footer("footer")
             <!-- /footer content -->
     </div>
-}(null)
+} {
+    <script type="text/javascript" src="@routes.Assets.versioned("vendors/froala-editor/js/froala_editor.pkgd.min.js")"></script>
+
+    <script type="text/javascript">
+            $(function () {
+                $('#descriptionEn').froalaEditor();
+                $('#descriptionJp').froalaEditor();
+            });
+    </script>
+}

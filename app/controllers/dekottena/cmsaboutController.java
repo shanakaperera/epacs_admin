@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.google.common.base.CharMatcher;
+import com.typesafe.config.ConfigFactory;
 import models.Coating;
 import models.DkcmsAbout;
 import models.Fitting;
@@ -31,13 +32,13 @@ public class cmsaboutController extends Controller {
 
     public Result home() {
 
-        Form<DkcmsAbout> aboutForm = formfactoroy.form(DkcmsAbout.class);
-
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        DkcmsAbout abt = s.load(DkcmsAbout.class, 1);
+        Form<DkcmsAbout> aboutForm = formfactoroy.form(DkcmsAbout.class).fill(abt);
         return ok(views.html.dekottena.cms.about.about.render(aboutForm));
     }
 
     @BodyParser.Of(MyMultipartFormDataBodyParser.class)
-
     public Result save() throws IOException {
 
         Form<DkcmsAbout> aboutuspage = formfactoroy.form(DkcmsAbout.class).bindFromRequest();
@@ -47,16 +48,13 @@ public class cmsaboutController extends Controller {
         final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
 
-        String coating_action = "About update";
-        String coating_code = "";
-        String dList = null;
-
         if (aboutuspage.hasErrors()) {
 
             flash("danger", "Please correct the below form.");
             return badRequest(views.html.dekottena.cms.about.about
                     .render(aboutuspage));
         } else {
+
             DkcmsAbout dkcmsAbout = aboutuspage.get();
             Session s = HibernateUtil.getSessionFactory().openSession();
             s.beginTransaction();
@@ -66,28 +64,32 @@ public class cmsaboutController extends Controller {
                 long data = ImageHandler.operateOnTempFile(file);
                 int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
 
-                if (!IsValidImageSize(digit_part, 50, 257)) {
+                if (digit_part > 0) {
 
-                    flash("danger", "Image size should be between 50KB and 256KB.");
-                    return badRequest(views.html.dekottena.cms.about.about
-                            .render(aboutuspage));
+                    if (!IsValidImageSize(digit_part, 50, 257)) {
 
+                        flash("danger", "Image size should be between 50KB and 256KB.");
+                        return badRequest(views.html.dekottena.cms.about.about
+                                .render(aboutuspage));
+
+                    }
+
+                    MyAwsCredentials s3 = new MyAwsCredentials();
+                    PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                            s3.getUpFolder(file_name), file)
+                            .withCannedAcl(CannedAccessControlList.PublicRead);
+                    AmazonS3Client client = s3.getClient();
+                    client.putObject(object_saved);
+
+                    dkcmsAbout.setImgUrl(Play.application().configuration().getString("env.file_download_path")
+                            .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                            .concat(file_name)
+                    );
                 }
 
-                MyAwsCredentials s3 = new MyAwsCredentials();
-                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
-                        s3.getUpFolder(file_name), file)
-                        .withCannedAcl(CannedAccessControlList.PublicRead);
-                AmazonS3Client client = s3.getClient();
-                client.putObject(object_saved);
-
-                dkcmsAbout.setImgUrl(Play.application().configuration().getString("env.file_download_path")
-                        .concat(Play.application().configuration().getString("env.file_upload_folder"))
-                        .concat(file_name)
-                );
             }
 
-            s.save(dkcmsAbout);
+            s.update(dkcmsAbout);
             s.getTransaction().commit();
             s.close();
             flash("success", "Successfully Saved. ");

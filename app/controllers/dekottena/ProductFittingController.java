@@ -74,25 +74,28 @@ public class ProductFittingController extends Controller {
                 long data = ImageHandler.operateOnTempFile(file);
                 int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
 
-                if (!IsValidImageSize(digit_part, 50, 257)) {
+                if (digit_part > 0) {
 
-                    flash("danger", "Image size should be between 50KB and 256KB.");
-                    return badRequest(views.html.dekottena.pr_fitting_page.pr_fitting
-                            .render(fitting_code, fitting_action, dList, new_fitting));
+                    if (!IsValidImageSize(digit_part, 50, 257)) {
 
+                        flash("danger", "Image size should be between 50KB and 256KB.");
+                        return badRequest(views.html.dekottena.pr_fitting_page.pr_fitting
+                                .render(fitting_code, fitting_action, dList, new_fitting));
+
+                    }
+
+                    MyAwsCredentials s3 = new MyAwsCredentials();
+                    PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                            s3.getUpFolder(file_name), file)
+                            .withCannedAcl(CannedAccessControlList.PublicRead);
+                    AmazonS3Client client = s3.getClient();
+                    client.putObject(object_saved);
+
+                    fitting.setImgPath(Play.application().configuration().getString("env.file_download_path")
+                            .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                            .concat(file_name)
+                    );
                 }
-
-                MyAwsCredentials s3 = new MyAwsCredentials();
-                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
-                        s3.getUpFolder(file_name), file)
-                        .withCannedAcl(CannedAccessControlList.PublicRead);
-                AmazonS3Client client = s3.getClient();
-                client.putObject(object_saved);
-
-                fitting.setImgPath(ConfigFactory.load("aws.conf").getString("env.file_download_path")
-                        .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
-                        .concat(file_name)
-                );
             }
 
             s.save(fitting);

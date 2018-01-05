@@ -2,6 +2,8 @@ package models;
 // Generated Jan 2, 2018 1:32:12 PM by Hibernate Tools 4.3.1
 
 
+import play.data.validation.Constraints;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +14,10 @@ public class DkcmsAbout implements java.io.Serializable {
 
 
     private Integer id;
+    @Constraints.Required(message = "Heading is not an optional.")
+    @Constraints.MinLength(value = 6, message = "Minimum length should be 6")
     private String headingEn;
+    @Constraints.Required(message = "Description is not an optional.")
     private String descriptionEn;
     private String headingJp;
     private String descriptionJp;
