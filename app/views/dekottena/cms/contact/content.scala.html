@@ -57,7 +57,7 @@
                                                 'id -> "mapLon", 'class -> "form-control", '_label -> "Google map Longtitude")
 
 
-                                            @b3.text(contactForm("contEmail"),
+                                            @b3.email(contactForm("contEmail"),
                                                 'id -> "contEmail", 'class -> "form-control", '_label -> "Email")
 
                                             @b3.text(contactForm("tel"),
@@ -66,7 +66,7 @@
                                             @b3.text(contactForm("website"),
                                                 'id -> "website", 'class -> "form-control", '_label -> "Email")
 
-                                            @b3.text(contactForm("submitMail"),
+                                            @b3.email(contactForm("submitMail"),
                                                 'id -> "submitMail", 'class -> "form-control", '_label -> "Messages Recieving Email")
 
 
@@ -106,7 +106,8 @@
                                             <div class="ln_solid"></div>
                                             @b3.free('_id -> "btn_group") {
                                                 <button type="submit" class="btn btn-success pull-right"> Save</button>
-                                                <button type="button" class="btn btn-primary pull-right"> Restore Back</button>
+                                                <button type="submit" class="btn btn-warning pull-right"> Delete</button>
+                                                <button type="button" class="btn btn-primary pull-right"> Clear</button>
                                             }
 
                                         </div>
