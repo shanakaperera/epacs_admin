@@ -41,16 +41,14 @@
                                 @b3.formCSRF(controllers.dekottena.routes.cmshomeController.save(), 'id -> "abt_form") {
 
                                     <div class="row">
-                                        <div class="col-md-8 col-sm-12 col-xs-12">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
                                             @b3.text(homeForm("titleEn"),
                                                 'id -> "titleEn", 'class -> "form-control", '_label -> "Slider Image Title(EN)")
-                                            @b3.text(homeForm("titleJp"),
-                                                'id -> "titleJp", 'class -> "form-control", '_label -> "Slider Image Title(JP)")
+
 
                                             @b3.textarea(homeForm("descriptionEn"),
                                                 'id -> "descriptionEn", 'class -> "form-control", '_label -> "Description(En)")
-                                            @b3.textarea(homeForm("descriptionJp"),
-                                                'id -> "descriptionJp", 'class -> "form-control", '_label -> "Description(JP)")
+
 
                                             @b3.text(homeForm("btnUrl"),
                                                 'id -> "btnUrl", 'class -> "form-control", '_label -> "Button URL")
@@ -59,10 +57,29 @@
 
                                             @b3.checkbox(homeForm("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
 
+
+
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+                                            @b3.text(homeForm("titleJp"),
+                                                'id -> "titleJp", 'class -> "form-control", '_label -> "Slider Image Title(JP)")
+
+
+                                            @b3.textarea(homeForm("descriptionJp"),
+                                                'id -> "descriptionJp", 'class -> "form-control", '_label -> "Description(JP)")
+
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+
+
                                             <div class="ln_solid"></div>
                                             @b3.free('_id -> "btn_group") {
-                                                <button type="submit" class="btn btn-success"> Save</button>
-                                                <button type="button" class="btn btn-primary"> Restore Back</button>
+                                                <button type="submit" class="btn btn-success pull-right"> Save</button>
+                                                <button type="button" class="btn btn-primary pull-right"> Restore Back</button>
                                             }
 
                                         </div>

@@ -41,32 +41,52 @@
                                 @b3.formCSRF(controllers.dekottena.routes.cmscontactController.save(), 'id -> "con_form") {
 
                                     <div class="row">
-                                        <div class="col-md-8 col-sm-12 col-xs-12">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+
+                                            @b3.textarea(contactForm("informationEn"),
+                                                'id -> "informationEn", 'class -> "form-control", '_label -> "Information(En)")
+
+                                            @b3.textarea(contactForm("addressEn"),
+                                                'id -> "addressEn", 'class -> "form-control", '_label -> "Address(En)")
+
                                             @b3.text(contactForm("mapLan"),
                                                 'id -> "mapLan", 'class -> "form-control", '_label -> "Google map Latitude")
 
                                             @b3.text(contactForm("mapLon"),
                                                 'id -> "mapLon", 'class -> "form-control", '_label -> "Google map Longtitude")
 
-                                            @b3.textarea(contactForm("informationEn"),
-                                                'id -> "informationEn", 'class -> "form-control", '_label -> "Information(En)")
-                                            @b3.textarea(contactForm("informationJp"),
-                                                'id -> "informationJp", 'class -> "form-control", '_label -> "Description(JP)")
-
-                                            @b3.textarea(contactForm("addressEn"),
-                                                'id -> "addressEn", 'class -> "form-control", '_label -> "Address(En)")
-                                            @b3.textarea(contactForm("addressJp"),
-                                                'id -> "addressJp", 'class -> "form-control", '_label -> "Address(JP)")
 
                                             @b3.text(contactForm("contEmail"),
                                                 'id -> "contEmail", 'class -> "form-control", '_label -> "Email")
+
                                             @b3.text(contactForm("tel"),
                                                 'id -> "tel", 'class -> "form-control", '_label -> "Contact no")
+
                                             @b3.text(contactForm("website"),
                                                 'id -> "website", 'class -> "form-control", '_label -> "Email")
 
                                             @b3.text(contactForm("submitMail"),
                                                 'id -> "submitMail", 'class -> "form-control", '_label -> "Messages Recieving Email")
+
+
+
+
+
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+
+                                            @b3.textarea(contactForm("informationJp"),
+                                                'id -> "informationJp", 'class -> "form-control", '_label -> "Description(JP)")
+
+
+
+                                            @b3.textarea(contactForm("addressJp"),
+                                                'id -> "addressJp", 'class -> "form-control", '_label -> "Address(JP)")
+
+                                            <hr>
 
                                             @b3.text(contactForm("fbUrl"),
                                                 'id -> "fbUrl", 'class -> "form-control", '_label -> "Social Links Facebook")
@@ -77,12 +97,16 @@
                                             @b3.text(contactForm("insterUrl"),
                                                 'id -> "insterUrl", 'class -> "form-control", '_label -> "Social Links Instagram")
 
-                                            @b3.file(contactForm("imgUrl"), '_label -> "About us Image")
+
+                                            <br>
+                                            <br>
+                                            <br>
+
 
                                             <div class="ln_solid"></div>
                                             @b3.free('_id -> "btn_group") {
-                                                <button type="submit" class="btn btn-success"> Save</button>
-                                                <button type="button" class="btn btn-primary"> Restore Back</button>
+                                                <button type="submit" class="btn btn-success pull-right"> Save</button>
+                                                <button type="button" class="btn btn-primary pull-right"> Restore Back</button>
                                             }
 
                                         </div>
