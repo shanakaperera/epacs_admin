@@ -1,9 +1,5 @@
 @(fitting_code: String, fitting_action: String, dList: String, f_form: play.data.Form[models.Fitting])
 
-    @implicitFieldConstructor = @{
-        b3.horizontal.fieldConstructor("col-md-2", "col-md-10")
-    }
-
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
@@ -44,34 +40,16 @@
                                 <div id="myTabContent" class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                     aria-labelledby="home-tab">
-                                    @b3.formCSRF(controllers.dekottena.routes.ProductFittingController.save(), 'id -> "f_form",
-                                        'enctype -> "multipart/form-data") {
 
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                @b3.text(f_form("title"),
-                                                    'id -> "c_title", 'class -> "form-control", '_label -> "Title")
-                                                @b3.textarea(f_form("description"),
-                                                    'id -> "c_desc", 'class -> "form-control", '_label -> "Description")
-                                                @b3.text(f_form("charge"),
-                                                    'id -> "c_charge", 'class -> "form-control", '_label -> "Charge")
-                                                @b3.textarea(f_form("remark"),
-                                                    'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
-                                                @b3.checkbox(f_form("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
-                                                @b3.hidden(f_form("code"), 'value -> fitting_code)
-                                                @b3.hidden(f_form("coatingAction"), 'value -> fitting_action)
-                                            </div>
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                            @b3.file(f_form("imgName"), 'id -> "f_img", '_label -> "Fitting Image")
-                                            </div>
-                                        </div>
 
-                                        <div class="ln_solid"></div>
-                                        @b3.free('_id -> "btn_group") {
-                                            <button type="submit" class="btn btn-success"> Save</button>
-                                            <button type="button" class="btn btn-primary"> Restore Back</button>
-                                        }
+                                    @if(fitting_action.contains("New")) {
+
+                                        @_new(fitting_code, fitting_action, f_form)
+                                    } else {
+
+                                        @_edit(fitting_code, fitting_action, f_form)
                                     }
+
                                     </div>
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content2"
                                     aria-labelledby="profile-tab">

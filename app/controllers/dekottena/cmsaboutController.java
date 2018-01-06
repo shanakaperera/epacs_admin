@@ -9,6 +9,7 @@ import models.Coating;
 import models.DkcmsAbout;
 import models.Fitting;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Session;
 import play.Play;
 import play.data.Form;
@@ -45,7 +46,6 @@ public class cmsaboutController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgUrl");
-        final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
 
         if (aboutuspage.hasErrors()) {
@@ -56,6 +56,7 @@ public class cmsaboutController extends Controller {
         } else {
 
             DkcmsAbout dkcmsAbout = aboutuspage.get();
+            final String file_name = "abt-display" + "." + FilenameUtils.getExtension(filePart.getFilename());
             Session s = HibernateUtil.getSessionFactory().openSession();
             s.beginTransaction();
 

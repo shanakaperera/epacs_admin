@@ -7,10 +7,12 @@ import com.google.common.base.CharMatcher;
 import com.typesafe.config.ConfigFactory;
 import models.Fitting;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import play.Play;
 import play.data.Form;
@@ -50,13 +52,13 @@ public class ProductFittingController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
-        final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
 
 
         String fitting_action = "New Fitting";
         String fitting_code = getNextFittingSequence();
         String dList = getDataList();
+        final String file_name = fitting_code + "." + FilenameUtils.getExtension(filePart.getFilename());
 
         if (new_fitting.hasErrors()) {
 
@@ -107,11 +109,82 @@ public class ProductFittingController extends Controller {
     }
 
     public Result edit(String code) {
-        return TODO;
+
+        String fitting_action = "Edit Fitting";
+        String dList = getDataList();
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Fitting.class);
+        c.add(Restrictions.eq("code", code));
+        Fitting ff = (Fitting) c.uniqueResult();
+
+        if (ff == null) {
+            flash("danger", "No fitting found with given name.");
+            return redirect(routes.ProductFittingController.home());
+        }
+        Form<Fitting> filterForm = formfactoroy.form(Fitting.class).fill(ff);
+        return ok(views.html.dekottena.pr_fitting_page.pr_fitting
+                .render(code, fitting_action, dList, filterForm));
     }
 
-    public Result update() {
-        return TODO;
+    @BodyParser.Of(MyMultipartFormDataBodyParser.class)
+    public Result update() throws IOException {
+
+        Form<Fitting> update_fitting = formfactoroy.form(Fitting.class).bindFromRequest();
+
+        final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
+        final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
+        final File file = filePart.getFile();
+
+        String fitting_action = "Edit Fitting";
+        Fitting fitting = update_fitting.get();
+        final String file_name = fitting.getCode() + "." + FilenameUtils.getExtension(filePart.getFilename());
+        String dList = getDataList();
+
+        if (update_fitting.hasErrors()) {
+
+            flash("danger", "Please correct the below form.");
+            return badRequest(views.html.dekottena.pr_fitting_page.pr_fitting
+                    .render(fitting.getCode(), fitting_action, dList, update_fitting));
+        } else {
+
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            s.beginTransaction();
+
+            if (file != null && file.exists()) {
+
+                long data = ImageHandler.operateOnTempFile(file);
+                int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+                if (digit_part > 0) {
+
+                    if (!IsValidImageSize(digit_part, 50, 257)) {
+
+                        flash("danger", "Image size should be between 50KB and 256KB.");
+                        return badRequest(views.html.dekottena.pr_fitting_page.pr_fitting
+                                .render(fitting.getCode(), fitting_action, dList, update_fitting));
+
+                    }
+                    MyAwsCredentials s3 = new MyAwsCredentials();
+                    PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                            s3.getUpFolder(file_name), file)
+                            .withCannedAcl(CannedAccessControlList.PublicRead);
+                    AmazonS3Client client = s3.getClient();
+                    client.putObject(object_saved);
+
+                    fitting.setImgPath(Play.application().configuration().getString("env.file_download_path")
+                            .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                            .concat(file_name)
+                    );
+                }
+            }
+
+            s.update(fitting);
+            s.getTransaction().commit();
+            s.close();
+            flash("success", "Successfully Updated. ");
+            return redirect(routes.ProductFittingController.edit(fitting.getCode()));
+        }
+
     }
 
     public Result delete(Integer id) {

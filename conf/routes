@@ -27,6 +27,12 @@ POST         /dekottena/product_coating/update              controllers.dekotten
 # show Dekottena product fitting Page
 GET         /dekottena/product_fitting                     controllers.dekottena.ProductFittingController.home
 
+# view & edit Dekottena product fitting
+GET         /dekottena/product_fitting/edit/:code          controllers.dekottena.ProductFittingController.edit(code: String)
+
+# update Dekottena product fitting
+POST         /dekottena/product_fitting/update              controllers.dekottena.ProductFittingController.update
+
 # show Dekottena product size Page
 GET         /dekottena/product_size                        controllers.dekottena.ProductSizeController.home
 

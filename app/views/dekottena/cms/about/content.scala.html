@@ -46,6 +46,9 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12">
 
                                                 @b3.file(aboutForm("imgUrl"), '_label -> "About us Image")
+                                                @if(aboutForm("imgUrl").getValue().isPresent()) {
+                                                    <img src='@aboutForm("imgUrl").value()' id='dynamic' style='max-width: 180px'>
+                                                }
 
                                                 @b3.text(aboutForm("headingEn"),
                                                     'id -> "headingEn", 'class -> "form-control", '_label -> "About us Title(EN)")
@@ -62,6 +65,7 @@
                                                     'id -> "descriptionJp", 'class -> "form-control", '_label -> "Description(JP)")
 
                                                 @b3.hidden(aboutForm("id"))
+                                                @b3.hidden(aboutForm("imgUrl"))
                                                 <br>
 
                                                 <div class="ln_solid "></div>

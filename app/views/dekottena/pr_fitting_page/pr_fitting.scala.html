@@ -36,7 +36,7 @@
         @general_content.footer("footer")
             <!-- /footer content -->
     </div>
-}{
+} {
     <script type="text/javascript">
             function readURL(input) {
 
@@ -60,6 +60,13 @@
 
             $('#f_img').change(function () {
                 readURL(this);
+            });
+    </script>
+
+    <script type="text/javascript">
+            $("#search_btn").click(function () {
+                var code = $('#search_txt').val();
+                window.location.href = "/dekottena/product_fitting/edit/" + code;
             });
     </script>
 }

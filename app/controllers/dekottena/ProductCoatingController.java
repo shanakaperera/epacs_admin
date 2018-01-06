@@ -7,6 +7,7 @@ import com.google.common.base.CharMatcher;
 import com.typesafe.config.ConfigFactory;
 import models.Coating;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -53,12 +54,12 @@ public class ProductCoatingController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
-        final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
 
         String coating_action = "New Coating";
         String coating_code = getNextCoatingSequence();
         String dList = getDataList();
+        final String file_name = coating_code + "." + FilenameUtils.getExtension(filePart.getFilename());
 
         if (new_coating.hasErrors()) {
 
@@ -135,11 +136,11 @@ public class ProductCoatingController extends Controller {
 
         final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
         final Http.MultipartFormData.FilePart<File> filePart = formData.getFile("imgName");
-        final String file_name = filePart.getFilename();
         final File file = filePart.getFile();
 
         String coating_action = "Edit Coating";
         Coating coating = update_coating.get();
+        final String file_name = coating.getCode() + "." + FilenameUtils.getExtension(filePart.getFilename());
         String dList = getDataList();
 
         if (update_coating.hasErrors()) {
