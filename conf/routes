@@ -12,11 +12,24 @@ GET         /dashboard                                     controllers.DashBoard
 # show Dekottena home Page
 GET         /dekottena/home                                controllers.dekottena.HomeController.home
 
+#-------------------------------------------PRODUCT STARTS-----------------------------------------
+
 # show Dekottena product Page
 GET         /dekottena/product                             controllers.dekottena.ProductController.home
 
+# save Dekottena product save
+POST        /dekottena/product_save                        controllers.dekottena.ProductController.save
+
+#-------------------------------------------PRODUCT ENDS-----------------------------------------
+
+
+#-------------------------------------------PRODUCT COATING STARTS-----------------------------------------
+
 # show Dekottena product coating Page
 GET         /dekottena/product_coating                     controllers.dekottena.ProductCoatingController.home
+
+# save Dekottena product coating
+POST        /dekottena/product_coating/coating_save        controllers.dekottena.ProductCoatingController.save
 
 # view & edit Dekottena product coating
 GET         /dekottena/product_coating/edit/:code          controllers.dekottena.ProductCoatingController.edit(code: String)
@@ -24,8 +37,17 @@ GET         /dekottena/product_coating/edit/:code          controllers.dekottena
 # update Dekottena product coating
 POST         /dekottena/product_coating/update              controllers.dekottena.ProductCoatingController.update
 
+#-------------------------------------------PRODUCT COATING ENDS-----------------------------------------
+
+
+
+#-------------------------------------------PRODUCT FITTING STARTS-----------------------------------------
+
 # show Dekottena product fitting Page
 GET         /dekottena/product_fitting                     controllers.dekottena.ProductFittingController.home
+
+# save Dekottena product fitting
+POST        /dekottena/fitting_save                        controllers.dekottena.ProductFittingController.save
 
 # view & edit Dekottena product fitting
 GET         /dekottena/product_fitting/edit/:code          controllers.dekottena.ProductFittingController.edit(code: String)
@@ -33,11 +55,22 @@ GET         /dekottena/product_fitting/edit/:code          controllers.dekottena
 # update Dekottena product fitting
 POST         /dekottena/product_fitting/update              controllers.dekottena.ProductFittingController.update
 
+#-------------------------------------------PRODUCT FITTING ENDS-----------------------------------------
+
+
+
+#-------------------------------------------PRODUCT SIZE STARTS-----------------------------------------
+
 # show Dekottena product size Page
 GET         /dekottena/product_size                        controllers.dekottena.ProductSizeController.home
 
+# save Dekottena product size
+POST        /dekottena/product_size/size_save              controllers.dekottena.ProductSizeController.save
 
-#Dekottena CMS
+#-------------------------------------------PRODUCT SIZE ENDS-----------------------------------------
+
+
+#----------------------------------------------Dekottena CMS SECTION STARTS-------------------------------------------
 
 # show Dekottena cms about
 GET         /dekottena/cms/about-us                        controllers.dekottena.cmsaboutController.home
@@ -60,19 +93,21 @@ POST        /dekottena/cms/contact-save                    controllers.dekottena
 # show Dekottena cms home save
 POST        /dekottena/cms/home-save                       controllers.dekottena.cmshomeController.save
 
+#----------------------------------------------Dekottena CMS SECTION ENDS-------------------------------------------
 
-# save Dekottena product coating
-POST        /dekottena/product_coating/coating_save        controllers.dekottena.ProductCoatingController.save
 
-# save Dekottena product fitting
-POST        /dekottena/fitting_save                        controllers.dekottena.ProductFittingController.save
 
-# save Dekottena product size
-POST        /dekottena/product_size/size_save              controllers.dekottena.ProductSizeController.save
+#-------------------------------------------PRODUCT CATEGORY SECTION STARTS--------------------------------------------
+# show Dekottena product category
+GET        /dekottena/product_category                      controllers.dekottena.ProductCategoryController.home
 
-# save Dekottena product save
-POST        /dekottena/product_save                        controllers.dekottena.ProductController.save
+# save Dekottena product category
+POST       /dekottena/product_category/cat_save             controllers.dekottena.ProductCategoryController.save
 
+# delete Dekottena product category
+POST       /dekottena/product_category/cat_delete           controllers.dekottena.ProductCategoryController.delete
+
+#-------------------------------------------PRODUCT CATEGORY SECTION ENDS--------------------------------------------
 
 
 # ==========================================DEKOTTENA ENDS===============================================================

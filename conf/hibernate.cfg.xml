@@ -32,6 +32,7 @@
         <mapping resource="mappings/DkcmsContact.hbm.xml"/>
         <mapping resource="mappings/DkcmsAbtUrl.hbm.xml"/>
         <mapping resource="mappings/DkcmsSlider.hbm.xml"/>
+        <mapping resource="mappings/TreeContent.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

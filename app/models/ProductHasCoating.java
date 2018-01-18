@@ -20,7 +20,11 @@ public class ProductHasCoating  implements java.io.Serializable {
        this.coating = coating;
        this.product = product;
     }
-   
+
+    public ProductHasCoating(Coating coating) {
+        this.coating = coating;
+    }
+
     public Integer getId() {
         return this.id;
     }

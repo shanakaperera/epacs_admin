@@ -118,7 +118,6 @@ public class Fitting implements java.io.Serializable {
         this.productHasFittings = productHasFittings;
     }
 
-
 }
 
 

@@ -1,9 +1,12 @@
 package controllers.dekottena;
 
-import models.Product;
+import models.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.*;
@@ -11,6 +14,9 @@ import services.DocSeqHandler;
 import services.HibernateUtil;
 
 import javax.inject.Inject;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ProductController extends Controller {
 
@@ -22,33 +28,52 @@ public class ProductController extends Controller {
 
         String action = "New Product";
         String code = getNextProductSequence();
+        List<Coating> coatings = getCoatingList();
+        List<Fitting> fittings = getFittingList();
+
+        Set<ProductHasCoating> phc = new HashSet<>();
+        for (Coating c : coatings) {
+            phc.add(new ProductHasCoating(c));
+        }
+        Set<ProductHasFitting> phf = new HashSet<>();
+        for (Fitting f : fittings) {
+            phf.add(new ProductHasFitting(f));
+        }
+
+        Product pi = new Product(phf, phc);
+
         Form<Product> productForm = formFactory.form(Product.class);
 
-        return ok(views.html.dekottena.product_page.product.render(code, action, productForm));
+        return ok(views.html.dekottena.product_page.product.render(code, action, productForm.fill(pi)));
     }
 
     public Result save() {
 
-        Form<Product> new_product = formFactory.form(Product.class).bindFromRequest();
+        String coatings = request().getQueryString("coatings");
 
-        if (new_product.hasErrors()) {
+        return ok(coatings);
 
-            String action = "New Product";
-            String code = getNextProductSequence();
+//        Form<Product> new_product = formFactory.form(Product.class).bindFromRequest();
 
-            flash("danger", "Please correct the below form.");
-            return badRequest(views.html.dekottena.product_page.product.render(code, action, new_product));
-        } else {
-
-            Product product = new_product.get();
-            Session s = HibernateUtil.getSessionFactory().openSession();
-            s.save(product);
-            s.beginTransaction();
-            s.getTransaction().commit();
-            s.close();
-            flash("success", "Successfully Saved.");
-            return redirect(routes.ProductController.home());
-        }
+//        String action = "New Product";
+//        String code = getNextProductSequence();
+//
+//        List<Coating> coatings = getCoatingList();
+//        List<Fitting> fittings = getFittingList();
+//
+//        if (new_product.hasErrors()) {
+//            flash("danger", "Please correct the below form.");
+//            return badRequest(views.html.dekottena.product_page.product.render(code, action, new_product));
+//        } else {
+//            Product product = new_product.get();
+//            Session s = HibernateUtil.getSessionFactory().openSession();
+//            s.beginTransaction();
+//            s.save(product);
+//            s.getTransaction().commit();
+//            s.close();
+//            flash("success", "Successfully Saved.");
+//            return redirect(routes.ProductController.home());
+//        }
 
     }
 
@@ -77,5 +102,35 @@ public class ProductController extends Controller {
             seqHandler.reqTable(TABLE_NAME, 0);
             return seqHandler.getSeq_code();
         }
+    }
+
+    private List<Coating> getCoatingList() {
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Coating.class);
+        c.setProjection(Projections.projectionList()
+                .add(Projections.property("id"), "id")
+                .add(Projections.property("code"), "code")
+                .add(Projections.property("title"), "title")
+                .add(Projections.property("imgPath"), "imgPath")
+        );
+        c.setResultTransformer(Transformers.aliasToBean(Coating.class));
+        List<Coating> cList = c.list();
+        return cList;
+    }
+
+    private List<Fitting> getFittingList() {
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Fitting.class);
+        c.setProjection(Projections.projectionList()
+                .add(Projections.property("id"), "id")
+                .add(Projections.property("code"), "code")
+                .add(Projections.property("title"), "title")
+                .add(Projections.property("imgPath"), "imgPath")
+        );
+        c.setResultTransformer(Transformers.aliasToBean(Fitting.class));
+        List<Fitting> fList = c.list();
+        return fList;
     }
 }

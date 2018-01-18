@@ -1,4 +1,5 @@
-@(pr_code: String, pr_action: String, productForm: play.data.Form[models.Product]) @index("Product"){
+@(pr_code: String, pr_action: String, productForm: play.data.Form[models.Product])
+@index("Product") {
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -10,7 +11,11 @@
                     <!-- /menu profile quick info -->
                 <br/>
                     <!-- sidebar menu -->
-                @general_content.side_bar("side bar"){@views.html.dekottena.common.sidebar_general()}{@views.html.dekottena.common.sidebar_settings()}
+                @general_content.side_bar("side bar") {
+                    @views.html.dekottena.common.sidebar_general()
+                } {
+                    @views.html.dekottena.common.sidebar_settings()
+                }
                     <!-- /sidebar menu -->
 
                     <!-- /menu footer buttons -->
@@ -24,7 +29,7 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(pr_code,pr_action,productForm)
+        @content(pr_code, pr_action, productForm)
             <!-- /page content -->
 
             <!-- footer content -->

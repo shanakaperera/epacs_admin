@@ -1,4 +1,5 @@
-@(coatingForm: play.data.Form[models.Coating]) @index("Product Category"){
+@(tree: List[Tree])
+@index("Product Category") {
 
     <div class="main_container">
         <div class="col-md-3 left_col">
@@ -10,7 +11,11 @@
                     <!-- /menu profile quick info -->
                 <br/>
                     <!-- sidebar menu -->
-                @general_content.side_bar("side bar"){@views.html.dekottena.common.sidebar_general()}{@views.html.dekottena.common.sidebar_settings()}
+                @general_content.side_bar("side bar") {
+                    @views.html.dekottena.common.sidebar_general()
+                } {
+                    @views.html.dekottena.common.sidebar_settings()
+                }
                     <!-- /sidebar menu -->
 
                     <!-- /menu footer buttons -->
@@ -24,11 +29,19 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-        @content(coatingForm)
+        @content(tree)
             <!-- /page content -->
 
             <!-- footer content -->
         @general_content.footer("footer")
             <!-- /footer content -->
     </div>
-}(null)
+} {
+    <script type="text/javascript">
+            $("#parent_id").on("change", function () {
+                var txt = $(this).find("option:selected").text();
+                //$(this).find("option:selected").text(txt.split('.').join(''));
+               // alert();
+            });
+    </script>
+}
