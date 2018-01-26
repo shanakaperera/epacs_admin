@@ -26,6 +26,8 @@ public class Fitting implements java.io.Serializable {
     private boolean status;
     private Set<ProductHasFitting> productHasFittings = new HashSet<>();
 
+    //custom added
+    private boolean selected = false;
 
     public Fitting() {
     }
@@ -118,6 +120,13 @@ public class Fitting implements java.io.Serializable {
         this.productHasFittings = productHasFittings;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }
 
 

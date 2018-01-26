@@ -68,11 +68,22 @@
 
                                                     <div class='checkbox'>
                                                         <label>
-                                                            <input type='checkbox' name='coatings' value="@coating("coating.code").value" class='flat'>
-                                                            @coating("coating.title").value
+                                                            <input type='checkbox' name='coatings[]' @if(coating("coating.selected").value.get == "true") {
+                                                                checked="checked"
+                                                            } value="@coating("coating.code").value" class='flat'>
+                                                                @coating("coating.title").value
                                                         </label>
+                                                        <img class="img-thumbnail" style="max-width: 20%" src="@if(coating("coating.imgPath").value == null || coating("coating.imgPath").value.isEmpty) {
+                                                            @routes.Assets.versioned("images/no-image-icon.png")
+                                                        } else {
+                                                            @coating("coating.imgPath").value
+                                                        }">
                                                     </div>
                                                 }
+                                                @for(error <- p_form("productHasCoatings").errors) {
+                                                    <span class="help-block" style="color: #a94442;">@error.message</span>
+                                                }
+
 
                                             </fieldset>
 
@@ -84,10 +95,21 @@
 
                                                     <div class='checkbox'>
                                                         <label>
-                                                            <input type='checkbox' name='fittings' value="@fitting("fitting.code").value" class='flat'>
-                                                            @fitting("fitting.title").value
+                                                            <input type='checkbox' name='fittings[]' @if(fitting("fitting.selected").value.get == "true") {
+                                                                checked="checked"
+                                                            } value="@fitting("fitting.code").value" class='flat'>
+                                                                @fitting("fitting.title").value
                                                         </label>
+                                                        <img class="img-thumbnail" style="max-width: 20%" src="@if(fitting("fitting.imgPath").value == null || fitting("fitting.imgPath").value.isEmpty) {
+                                                            @routes.Assets.versioned("images/no-image-icon.png")
+                                                        } else {
+                                                            @fitting("fitting.imgPath").value
+                                                        }">
                                                     </div>
+                                                }
+
+                                                @for(error <- p_form("productHasFittings").errors) {
+                                                    <span class="help-block" style="color: #a94442;">@error.message</span>
                                                 }
 
                                             </fieldset>

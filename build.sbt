@@ -21,6 +21,8 @@ libraryDependencies ++= Seq(
   "com.adrianhurt" %% "play-bootstrap" % "1.2-P26-B3"
 )
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.9.2"
+libraryDependencies += "com.google.guava" % "guava" % "23.0"
+
 
 // Testing libraries for dealing with CompletionStage...
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test

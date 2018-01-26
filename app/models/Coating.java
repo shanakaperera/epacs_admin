@@ -33,6 +33,10 @@ public class Coating implements Validatable<List<ValidationError>>, Serializable
     private Set<models.ProductHasCoating> productHasCoatings = new HashSet<>();
     private String imgName;
 
+    //custom added
+    private boolean selected = false;
+
+
     public Coating() {
     }
 
@@ -129,6 +133,15 @@ public class Coating implements Validatable<List<ValidationError>>, Serializable
 
     public void setImgName(String imgName) {
         this.imgName = imgName;
+    }
+
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override
