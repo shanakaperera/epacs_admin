@@ -1,6 +1,8 @@
 package models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TreeContent implements Serializable {
 
@@ -8,6 +10,7 @@ public class TreeContent implements Serializable {
     private int nodeId;
     private String lang;
     private String name;
+    private Set<Product> products = new HashSet<>();
 
     public TreeContent() {
     }
@@ -42,5 +45,13 @@ public class TreeContent implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

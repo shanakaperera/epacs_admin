@@ -8,6 +8,9 @@
             <column name="id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="treeContent" class="models.TreeContent" fetch="select">
+            <column name="tree_content_id" not-null="true" />
+        </many-to-one>
         <property name="code" type="string">
             <column name="code" length="12" />
         </property>

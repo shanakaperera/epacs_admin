@@ -36,13 +36,15 @@ public class Product implements Constraints.Validatable<List<ValidationError>>, 
     private Set<ProductHasFitting> productHasFittings = new HashSet<>();
     private Set<ProductHasCoating> productHasCoatings = new HashSet<>();
     private Set<ProductHasSize> productHasSizes = new HashSet<>();
+    private TreeContent treeContent;
 
     public Product() {
     }
 
-    public Product(Set<ProductHasFitting> productHasFittings, Set<ProductHasCoating> productHasCoatings) {
+    public Product(Set<ProductHasFitting> productHasFittings, Set<ProductHasCoating> productHasCoatings, String code) {
         this.productHasFittings = productHasFittings;
         this.productHasCoatings = productHasCoatings;
+        this.code = code;
     }
 
     public Product(String code, String title, String boldText, String homeDescription, String shortDescription, String longDescription, String homeImgPath, String detailImgPath, String imgTitle1, String imgTitle2, String sizeImgPath, String borderImgPath, String sideViewsImg, Set<ProductHasFitting> productHasFittings, Set<ProductHasCoating> productHasCoatings, Set<ProductHasSize> productHasSizes) {
@@ -200,6 +202,13 @@ public class Product implements Constraints.Validatable<List<ValidationError>>, 
         this.productHasSizes = productHasSizes;
     }
 
+    public TreeContent getTreeContent() {
+        return treeContent;
+    }
+
+    public void setTreeContent(TreeContent treeContent) {
+        this.treeContent = treeContent;
+    }
 
     @Override
     public List<ValidationError> validate() {

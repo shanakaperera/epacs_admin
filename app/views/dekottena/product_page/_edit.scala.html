@@ -1,0 +1,96 @@
+@(pr_code: String, pr_action: String, p_form: play.data.Form[models.Product], tree: Map[String, String])
+
+@implicitFieldConstructor = @{
+    b3.horizontal.fieldConstructor("col-md-3", "col-md-9")
+}
+@import helper._
+
+@b3.formCSRF(controllers.dekottena.routes.ProductController.update(), 'id -> "pr_form",
+    'enctype -> "multipart/form-data") {
+
+    <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            @b3.text(p_form("title"), 'class -> "form-control", '_label -> "Title")
+            @b3.textarea(p_form("boldText"), 'class -> "form-control", '_label -> "Bolt Text")
+            @b3.textarea(p_form("homeDescription"), 'class -> "form-control", '_label -> "Home Description")
+            @b3.textarea(p_form("shortDescription"), 'class -> "form-control", '_label -> "Short Description")
+            @b3.textarea(p_form("longDescription"), 'class -> "form-control", '_label -> "Long Description")
+            @b3.select(p_form("treeContent.nodeId"), options(tree), 'class -> "form-control", '_label -> "Category")
+
+            @b3.file(p_form("detailImgPath"), '_label -> "Main Image", 'id -> "mainImage")
+            @if(p_form("detailImgPath").getValue().isPresent()) {
+                <img src='@p_form("detailImgPath").value()' id='dynamic_1' style='max-width: 180px;
+                    margin-left: 20%'>
+            }
+
+            @b3.file(p_form("sideViewsImg"), '_label -> "Side View Image", 'id -> "sideView")
+            @if(p_form("sideViewsImg").getValue().isPresent()) {
+                <img src='@p_form("sideViewsImg").value()' id='dynamic_2' style='max-width: 180px;
+                    margin-left: 20%'>
+                }
+            @b3.textarea(p_form("remark"),
+                'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+
+            <fieldset>
+                <legend>Coating:</legend>
+
+                @helper.repeat(p_form("productHasCoatings"), min = 1) { coating =>
+
+                    <div class='checkbox'>
+                        <label>
+                            <input type='checkbox' name='coatings[]' @if(coating("coating.selected").value.get == "true") {
+                                checked="checked"
+                            } value="@coating("coating.code").value" class='flat'>
+                                @coating("coating.title").value
+                        </label>
+                        <img class="img-thumbnail" style="max-width: 20%" src="@if(coating("coating.imgPath").value == null || coating("coating.imgPath").value.isEmpty) {
+                            @routes.Assets.versioned("images/no-image-icon.png")
+                        } else {
+                            @coating("coating.imgPath").value
+                        }">
+                    </div>
+                }
+                @for(error <- p_form("productHasCoatings").errors) {
+                    <span class="help-block" style="color: #a94442;">@error.message</span>
+                }
+
+
+            </fieldset>
+
+            <br>
+            <fieldset>
+                <legend>Fitting:</legend>
+
+                @helper.repeat(p_form("productHasFittings"), min = 1) { fitting =>
+
+                    <div class='checkbox'>
+                        <label>
+                            <input type='checkbox' name='fittings[]' @if(fitting("fitting.selected").value.get == "true") {
+                                checked="checked"
+                            } value="@fitting("fitting.code").value" class='flat'>
+                                @fitting("fitting.title").value
+                        </label>
+                        <img class="img-thumbnail" style="max-width: 20%" src="@if(fitting("fitting.imgPath").value == null || fitting("fitting.imgPath").value.isEmpty) {
+                            @routes.Assets.versioned("images/no-image-icon.png")
+                        } else {
+                            @fitting("fitting.imgPath").value
+                        }">
+                    </div>
+                }
+
+                @for(error <- p_form("productHasFittings").errors) {
+                    <span class="help-block" style="color: #a94442;">@error.message</span>
+                }
+
+            </fieldset>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    @b3.hidden(p_form("code"))
+    @b3.free('_id -> "btn_group") {
+        <button type="submit" class="btn btn-success"> Save</button>
+        <button type="button" class="btn btn-primary"> Restore Back</button>
+    }
+}

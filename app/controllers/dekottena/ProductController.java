@@ -9,9 +9,11 @@ import models.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import play.Play;
 import play.data.DynamicForm;
@@ -37,12 +39,13 @@ public class ProductController extends Controller {
     private static final String TABLE_NAME = "product";
     private List<Coating> coatings = getCoatingList();
     private List<Fitting> fittings = getFittingList();
+    private Map<String, String> tree = getTree();
 
     public Result home() {
 
         String action = "New Product";
+        String dList = getDataList();
         String code = getNextProductSequence();
-
 
         Set<ProductHasCoating> phc = new HashSet<>();
         for (Coating c : coatings) {
@@ -53,15 +56,15 @@ public class ProductController extends Controller {
             phf.add(new ProductHasFitting(f));
         }
 
-        Product pi = new Product(phf, phc);
+        Product pi = new Product(phf, phc, code);
 
         Form<Product> productForm = formFactory.form(Product.class);
 
-        return ok(views.html.dekottena.product_page.product.render(code, action, productForm.fill(pi)));
+        return ok(views.html.dekottena.product_page.product.render(code, action, dList, productForm.fill(pi), tree));
     }
 
     @BodyParser.Of(MyMultipartFormDataBodyParser.class)
-    public Result save() throws IOException{
+    public Result save() throws IOException {
 
         Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
 
@@ -128,6 +131,7 @@ public class ProductController extends Controller {
 
         if (productForm.hasErrors()) {
             String action = "New Product";
+            String dList = getDataList();
             String code = getNextProductSequence();
 
             Set<ProductHasCoating> phc = new HashSet<>();
@@ -145,7 +149,7 @@ public class ProductController extends Controller {
             product.setProductHasCoatings(phc);
             product.setProductHasFittings(phf);
             flash("danger", "Please correct the below form.");
-            return badRequest(views.html.dekottena.product_page.product.render(code, action, productForm));
+            return badRequest(views.html.dekottena.product_page.product.render(code, action, dList, productForm, tree));
         }
 
         Product new_product = productForm.get();
@@ -155,8 +159,9 @@ public class ProductController extends Controller {
         if (mainImage != null && mainImage.exists()) {
 
             String action = "New Product";
+            String dList = getDataList();
             String code = getNextProductSequence();
-            final String file_name = code + "." + FilenameUtils.getExtension(filePart_1.getFilename());
+            final String file_name = code + "_main" + "." + FilenameUtils.getExtension(filePart_1.getFilename());
 
             long data = ImageHandler.operateOnTempFile(mainImage);
             int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
@@ -167,7 +172,7 @@ public class ProductController extends Controller {
 
                     flash("danger", "Image size should be between 256KB and 700KB.");
                     return badRequest(views.html.dekottena.product_page.product
-                            .render(code, action, productForm));
+                            .render(code, action, dList, productForm, tree));
 
                 }
 
@@ -189,8 +194,9 @@ public class ProductController extends Controller {
         if (sideView != null && sideView.exists()) {
 
             String action = "New Product";
+            String dList = getDataList();
             String code = getNextProductSequence();
-            final String file_name = code + "." + FilenameUtils.getExtension(filePart_2.getFilename());
+            final String file_name = code + ".sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
 
             long data = ImageHandler.operateOnTempFile(sideView);
             int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
@@ -201,7 +207,7 @@ public class ProductController extends Controller {
 
                     flash("danger", "Image size should be between 256KB and 700KB.");
                     return badRequest(views.html.dekottena.product_page.product
-                            .render(code, action, productForm));
+                            .render(code, action, dList, productForm, tree));
 
                 }
 
@@ -212,7 +218,7 @@ public class ProductController extends Controller {
                 AmazonS3Client client = s3.getClient();
                 client.putObject(object_saved);
 
-                new_product.setHomeImgPath(Play.application().configuration().getString("env.file_download_path")
+                new_product.setSideViewsImg(Play.application().configuration().getString("env.file_download_path")
                         .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
                         .concat(file_name)
                 );
@@ -220,7 +226,7 @@ public class ProductController extends Controller {
 
         }
 
-
+        new_product.setTreeContent(getTC(s, productForm.get().getTreeContent().getNodeId()));
         s.save(new_product);
         s.getTransaction().commit();
         s.close();
@@ -229,7 +235,50 @@ public class ProductController extends Controller {
 
     }
 
-    public Result update(Integer id) {
+    public Result edit(String code) {
+
+        String pro_action = "Edit Product";
+        String dList = getDataList();
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Product.class);
+        c.add(Restrictions.eq("code", code));
+        Product fp = (Product) c.uniqueResult();
+        s.close();
+        if (fp == null) {
+            flash("danger", "No product found with given name.");
+            return redirect(routes.ProductController.home());
+        }
+
+        Set<ProductHasCoating> phc = new HashSet<>();
+        for (Coating co : coatings) {
+            boolean b = fp.getProductHasCoatings().stream().anyMatch(p -> p.getCoating().getCode().equalsIgnoreCase(co.getCode()));
+            if (b) {
+                co.setSelected(true);
+            }
+            phc.add(new ProductHasCoating(co));
+        }
+        Set<ProductHasFitting> phf = new HashSet<>();
+        for (Fitting fi : fittings) {
+            boolean b = fp.getProductHasFittings().stream().anyMatch(p -> p.getFitting().getCode().equalsIgnoreCase(fi.getCode()));
+            if (b) {
+                fi.setSelected(true);
+            }
+            phf.add(new ProductHasFitting(fi));
+        }
+
+        fp.setProductHasCoatings(phc);
+        fp.setProductHasFittings(phf);
+
+        Form<Product> filterForm = formFactory.form(Product.class).fill(fp);
+
+//        return ok(views.html.dekottena.product_page.product
+//                .render(code, pro_action, dList, filterForm, tree));
+      //  return ok(filterForm.get().getProductHasFittings().stream().findFirst().get().getFitting().getCode());
+        return ok(fp.getProductHasFittings().stream().findFirst().get().getFitting().getCode());
+    }
+
+    public Result update() {
         return TODO;
     }
 
@@ -284,5 +333,49 @@ public class ProductController extends Controller {
         c.setResultTransformer(Transformers.aliasToBean(Fitting.class));
         List<Fitting> fList = c.list();
         return fList;
+    }
+
+    private Map<String, String> getTree() {
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Query query = s.createSQLQuery(
+                "CALL r_return_tree(:pedited, :lang);")
+                .setParameter("pedited", 1)
+                .setParameter("lang", "en");
+        List<Object[]> rows = query.list();
+        Map<String, String> tree = new HashMap<>();
+
+        for (Object[] row : rows) {
+            tree.put(row[0].toString(), row[1].toString());
+        }
+        s.close();
+        return tree;
+    }
+
+    private TreeContent getTC(Session s, int nodeId) {
+        Criteria c = s.createCriteria(TreeContent.class);
+        c.add(Restrictions.eq("nodeId", nodeId));
+        TreeContent tc = (TreeContent) c.uniqueResult();
+        return tc;
+    }
+
+    private String getDataList() {
+
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Criteria c = s.createCriteria(Product.class);
+        c.setProjection(Projections.projectionList()
+                .add(Projections.property("code"), "code")
+                .add(Projections.property("title"), "title")
+        );
+        c.setResultTransformer(Transformers.aliasToBean(Product.class));
+        List<Product> pList = c.list();
+
+        String dList = "";
+        for (Product po : pList) {
+            dList += "<option value='" + po.getCode() + "'>" + po.getTitle() + "</option>";
+        }
+
+        s.close();
+        return dList;
     }
 }

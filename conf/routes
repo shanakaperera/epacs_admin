@@ -20,6 +20,12 @@ GET         /dekottena/product                             controllers.dekottena
 # save Dekottena product save
 POST        /dekottena/product_save                        controllers.dekottena.ProductController.save
 
+# view & edit Dekottena product
+GET         /dekottena/product/edit/:code                  controllers.dekottena.ProductController.edit(code: String)
+
+# update Dekottena product
+POST        /dekottena/product/update                      controllers.dekottena.ProductController.update
+
 #-------------------------------------------PRODUCT ENDS-----------------------------------------
 
 
@@ -35,7 +41,7 @@ POST        /dekottena/product_coating/coating_save        controllers.dekottena
 GET         /dekottena/product_coating/edit/:code          controllers.dekottena.ProductCoatingController.edit(code: String)
 
 # update Dekottena product coating
-POST         /dekottena/product_coating/update              controllers.dekottena.ProductCoatingController.update
+POST        /dekottena/product_coating/update              controllers.dekottena.ProductCoatingController.update
 
 #-------------------------------------------PRODUCT COATING ENDS-----------------------------------------
 
@@ -53,7 +59,7 @@ POST        /dekottena/fitting_save                        controllers.dekottena
 GET         /dekottena/product_fitting/edit/:code          controllers.dekottena.ProductFittingController.edit(code: String)
 
 # update Dekottena product fitting
-POST         /dekottena/product_fitting/update              controllers.dekottena.ProductFittingController.update
+POST        /dekottena/product_fitting/update              controllers.dekottena.ProductFittingController.update
 
 #-------------------------------------------PRODUCT FITTING ENDS-----------------------------------------
 
@@ -99,13 +105,13 @@ POST        /dekottena/cms/home-save                       controllers.dekottena
 
 #-------------------------------------------PRODUCT CATEGORY SECTION STARTS--------------------------------------------
 # show Dekottena product category
-GET        /dekottena/product_category                      controllers.dekottena.ProductCategoryController.home
+GET         /dekottena/product_category                    controllers.dekottena.ProductCategoryController.home
 
 # save Dekottena product category
-POST       /dekottena/product_category/cat_save             controllers.dekottena.ProductCategoryController.save
+POST        /dekottena/product_category/cat_save           controllers.dekottena.ProductCategoryController.save
 
 # delete Dekottena product category
-POST       /dekottena/product_category/cat_delete           controllers.dekottena.ProductCategoryController.delete
+POST        /dekottena/product_category/cat_delete         controllers.dekottena.ProductCategoryController.delete
 
 #-------------------------------------------PRODUCT CATEGORY SECTION ENDS--------------------------------------------
 
