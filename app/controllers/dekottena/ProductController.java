@@ -49,10 +49,12 @@ public class ProductController extends Controller {
 
         Set<ProductHasCoating> phc = new HashSet<>();
         for (Coating c : coatings) {
+            c.setSelected(false);
             phc.add(new ProductHasCoating(c));
         }
         Set<ProductHasFitting> phf = new HashSet<>();
         for (Fitting f : fittings) {
+            f.setSelected(false);
             phf.add(new ProductHasFitting(f));
         }
 
@@ -104,12 +106,12 @@ public class ProductController extends Controller {
         Product product = productForm.get();
         Set<ProductHasCoating> phcs = new HashSet<>();
         for (Coating c : c_selected) {
-            phcs.add(new ProductHasCoating(c));
+            phcs.add(new ProductHasCoating(c, product));
         }
 
         Set<ProductHasFitting> phfs = new HashSet<>();
         for (Fitting f : f_selected) {
-            phfs.add(new ProductHasFitting(f));
+            phfs.add(new ProductHasFitting(f, product));
         }
 
         product.setProductHasFittings(phfs);
@@ -252,19 +254,19 @@ public class ProductController extends Controller {
 
         Set<ProductHasCoating> phc = new HashSet<>();
         for (Coating co : coatings) {
-            boolean b = fp.getProductHasCoatings().stream().anyMatch(p -> p.getCoating().getCode().equalsIgnoreCase(co.getCode()));
+            boolean b = fp.getProductHasCoatings().stream().anyMatch(p -> p.getCoating().getId() == co.getId());
             if (b) {
                 co.setSelected(true);
             }
-            phc.add(new ProductHasCoating(co));
+            phc.add(new ProductHasCoating(co, fp));
         }
         Set<ProductHasFitting> phf = new HashSet<>();
         for (Fitting fi : fittings) {
-            boolean b = fp.getProductHasFittings().stream().anyMatch(p -> p.getFitting().getCode().equalsIgnoreCase(fi.getCode()));
+            boolean b = fp.getProductHasFittings().stream().anyMatch(p -> p.getFitting().getId() == fi.getId());
             if (b) {
                 fi.setSelected(true);
             }
-            phf.add(new ProductHasFitting(fi));
+            phf.add(new ProductHasFitting(fi, fp));
         }
 
         fp.setProductHasCoatings(phc);
@@ -272,14 +274,177 @@ public class ProductController extends Controller {
 
         Form<Product> filterForm = formFactory.form(Product.class).fill(fp);
 
-//        return ok(views.html.dekottena.product_page.product
-//                .render(code, pro_action, dList, filterForm, tree));
-      //  return ok(filterForm.get().getProductHasFittings().stream().findFirst().get().getFitting().getCode());
-        return ok(fp.getProductHasFittings().stream().findFirst().get().getFitting().getCode());
+        return ok(views.html.dekottena.product_page.product
+                .render(code, pro_action, dList, filterForm, tree));
     }
 
-    public Result update() {
-        return TODO;
+    @BodyParser.Of(MyMultipartFormDataBodyParser.class)
+    public Result update() throws IOException {
+
+        Form<Product> update_product = formFactory.form(Product.class).bindFromRequest();
+        final Http.MultipartFormData<File> formData = request().body().asMultipartFormData();
+
+        Map<String, String> c_data = update_product.rawData().entrySet()
+                .stream().filter(p -> p.getKey().contains("coatings"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        Map<String, String> f_data = update_product.rawData().entrySet()
+                .stream().filter(p -> p.getKey().contains("fittings"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        Http.MultipartFormData.FilePart<File> filePart_1 = formData.getFile("detailImgPath");
+        Http.MultipartFormData.FilePart<File> filePart_2 = formData.getFile("sideViewsImg");
+
+        File mainImage = filePart_1.getFile();
+        File sideView = filePart_2.getFile();
+
+
+        List<Coating> c_selected = new ArrayList<>();
+        List<Fitting> f_selected = new ArrayList<>();
+
+        for (int c = 0; c < coatings.size(); c++) {
+            if (c_data != null && c_data.containsValue(coatings.get(c).getCode())) {
+                c_selected.add(coatings.get(c));
+            }
+        }
+
+        for (int f = 0; f < fittings.size(); f++) {
+            if (f_data != null && f_data.containsValue(fittings.get(f).getCode())) {
+                f_selected.add(fittings.get(f));
+            }
+        }
+
+        Product product = update_product.get();
+        Set<ProductHasCoating> phcs = new HashSet<>();
+        for (Coating c : c_selected) {
+            phcs.add(new ProductHasCoating(c, product));
+        }
+
+        Set<ProductHasFitting> phfs = new HashSet<>();
+        for (Fitting f : f_selected) {
+            phfs.add(new ProductHasFitting(f, product));
+        }
+
+        product.setProductHasFittings(phfs);
+        product.setProductHasCoatings(phcs);
+        update_product.fill(product);
+
+        ArrayList<ValidationError> errors = new ArrayList<>();
+
+        if (update_product.get().getProductHasCoatings().isEmpty()) {
+            errors.add(new ValidationError("productHasCoatings", "At least one Coating option should be selected."));
+        }
+        if (update_product.get().getProductHasFittings().isEmpty()) {
+            errors.add(new ValidationError("productHasFittings", "At least one Fitting option should be selected."));
+        }
+
+        for (ValidationError error : errors) {
+            update_product.reject(error);
+        }
+
+        if (update_product.hasErrors()) {
+            String action = "Edit Product";
+            String dList = getDataList();
+            String code = getNextProductSequence();
+
+            Set<ProductHasCoating> phc = new HashSet<>();
+            for (Coating c : coatings) {
+                c.setSelected(c_selected.stream().anyMatch(p -> p.getCode().equalsIgnoreCase(c.getCode())));
+                phc.add(new ProductHasCoating(c));
+
+            }
+            Set<ProductHasFitting> phf = new HashSet<>();
+            for (Fitting f : fittings) {
+                f.setSelected(f_selected.stream().anyMatch(p -> p.getCode().equalsIgnoreCase(f.getCode())));
+                phf.add(new ProductHasFitting(f));
+            }
+
+            product.setProductHasCoatings(phc);
+            product.setProductHasFittings(phf);
+            flash("danger", "Please correct the below form.");
+            return badRequest(views.html.dekottena.product_page.product.render(code, action, dList, update_product, tree));
+        }
+
+        Product pr_update = update_product.get();
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        s.beginTransaction();
+
+        if (mainImage != null && mainImage.exists()) {
+
+            String action = "Edit Product";
+            String dList = getDataList();
+            String code = getNextProductSequence();
+            final String file_name = code + "_main" + "." + FilenameUtils.getExtension(filePart_1.getFilename());
+
+            long data = ImageHandler.operateOnTempFile(mainImage);
+            int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+            if (digit_part > 0) {
+
+                if (!IsValidImageSize(digit_part, 50, 257)) {
+
+                    flash("danger", "Image size should be between 256KB and 700KB.");
+                    return badRequest(views.html.dekottena.product_page.product
+                            .render(code, action, dList, update_product, tree));
+
+                }
+
+                MyAwsCredentials s3 = new MyAwsCredentials();
+                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                        s3.getUpFolder(file_name), mainImage)
+                        .withCannedAcl(CannedAccessControlList.PublicRead);
+                AmazonS3Client client = s3.getClient();
+                client.putObject(object_saved);
+
+                pr_update.setDetailImgPath(Play.application().configuration().getString("env.file_download_path")
+                        .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                        .concat(file_name)
+                );
+            }
+
+        }
+
+        if (sideView != null && sideView.exists()) {
+
+            String action = "New Product";
+            String dList = getDataList();
+            String code = getNextProductSequence();
+            final String file_name = code + ".sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
+
+            long data = ImageHandler.operateOnTempFile(sideView);
+            int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
+
+            if (digit_part > 0) {
+
+                if (!IsValidImageSize(digit_part, 50, 257)) {
+
+                    flash("danger", "Image size should be between 256KB and 700KB.");
+                    return badRequest(views.html.dekottena.product_page.product
+                            .render(code, action, dList, update_product, tree));
+
+                }
+
+                MyAwsCredentials s3 = new MyAwsCredentials();
+                PutObjectRequest object_saved = new PutObjectRequest(s3.getBucket(),
+                        s3.getUpFolder(file_name), sideView)
+                        .withCannedAcl(CannedAccessControlList.PublicRead);
+                AmazonS3Client client = s3.getClient();
+                client.putObject(object_saved);
+
+                pr_update.setSideViewsImg(Play.application().configuration().getString("env.file_download_path")
+                        .concat(ConfigFactory.load("aws.conf").getString("env.file_upload_folder"))
+                        .concat(file_name)
+                );
+            }
+
+        }
+
+        pr_update.setTreeContent(getTC(s, update_product.get().getTreeContent().getNodeId()));
+        s.update(pr_update);
+        s.getTransaction().commit();
+        s.close();
+        flash("success", "Successfully Updated. ");
+        return redirect(routes.ProductController.home());
     }
 
     public Result delete(Integer id) {

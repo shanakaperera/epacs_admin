@@ -54,19 +54,19 @@
         <property name="sideViewsImg" type="string">
             <column name="side_views_img" length="65535" />
         </property>
-        <set name="productHasFittings" table="product_has_fitting" inverse="true" lazy="true" fetch="select">
+        <set name="productHasFittings" cascade="save-update" table="product_has_fitting" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="product_id" not-null="true" />
             </key>
             <one-to-many class="models.ProductHasFitting" />
         </set>
-        <set name="productHasCoatings" table="product_has_coating" inverse="true" lazy="true" fetch="select">
+        <set name="productHasCoatings" cascade="save-update" table="product_has_coating" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="product_id" not-null="true" />
             </key>
             <one-to-many class="models.ProductHasCoating" />
         </set>
-        <set name="productHasSizes" table="product_has_size" inverse="true" lazy="true" fetch="select">
+        <set name="productHasSizes" cascade="save-update" table="product_has_size" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="product_id" not-null="true" />
             </key>
