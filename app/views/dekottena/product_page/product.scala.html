@@ -1,39 +1,75 @@
-@(pr_code: String, pr_action: String, productForm: play.data.Form[models.Product])
-@index("Product") {
+@(pr_code: String, pr_action: String, dList: String, productForm: play.data.Form[models.Product], tree: Map[String, String])
+    @index("Product") {
 
-    <div class="main_container">
-        <div class="col-md-3 left_col">
-            <div class="left_col scroll-view">
-                @general_content.header("Dekottena Home")
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    @general_content.header("Dekottena Home")
 
-                    <!-- menu profile quick info -->
-                @general_content.side_bar_header("side bar header")
-                    <!-- /menu profile quick info -->
-                <br/>
-                    <!-- sidebar menu -->
-                @general_content.side_bar("side bar") {
-                    @views.html.dekottena.common.sidebar_general()
-                } {
-                    @views.html.dekottena.common.sidebar_settings()
-                }
-                    <!-- /sidebar menu -->
+                        <!-- menu profile quick info -->
+                    @general_content.side_bar_header("side bar header")
+                        <!-- /menu profile quick info -->
+                    <br/>
+                        <!-- sidebar menu -->
+                    @general_content.side_bar("side bar") {
+                        @views.html.dekottena.common.sidebar_general()
+                    } {
+                        @views.html.dekottena.common.sidebar_settings()
+                    }
+                        <!-- /sidebar menu -->
 
-                    <!-- /menu footer buttons -->
-                @general_content.side_bar_footer("side bar footer")
-                    <!-- /menu footer buttons -->
+                        <!-- /menu footer buttons -->
+                    @general_content.side_bar_footer("side bar footer")
+                        <!-- /menu footer buttons -->
+                </div>
             </div>
+
+                <!-- top navigation -->
+            @general_content.top_navigation("top navigation")
+                <!-- /top navigation -->
+
+                <!-- page content -->
+            @content(pr_code, pr_action, dList, productForm, tree)
+                <!-- /page content -->
+
+                <!-- footer content -->
+            @general_content.footer("footer")
+                <!-- /footer content -->
         </div>
+    } {
+        <script type="text/javascript">
+                function readURL(input, atr_name, ins_before) {
 
-            <!-- top navigation -->
-        @general_content.top_navigation("top navigation")
-            <!-- /top navigation -->
+                    var dynamic = $('#' + atr_name);
+                    if (dynamic) {
+                        dynamic.remove();
+                    }
 
-            <!-- page content -->
-        @content(pr_code, pr_action, productForm)
-            <!-- /page content -->
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
 
-            <!-- footer content -->
-        @general_content.footer("footer")
-            <!-- /footer content -->
-    </div>
-}(null)
+                        reader.onload = function (e) {
+                            var img = $('<img id="' + atr_name + '">');
+                            img.attr('src', e.target.result);
+                            img.css("max-width", "180px");
+                            img.insertBefore('#' + ins_before);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $('#mainImage').change(function () {
+                    readURL(this, "dynamic_1", "mainImage");
+                });
+                $('#sideView').change(function () {
+                    readURL(this, "dynamic_2", "sideView");
+                });
+        </script>
+
+        <script type="text/javascript">
+                $("#search_btn").click(function () {
+                    var code = $('#search_txt').val();
+                    window.location.href = "/dekottena/product/edit/" + code;
+                });
+        </script>
+    }
