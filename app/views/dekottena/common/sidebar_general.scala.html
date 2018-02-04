@@ -53,14 +53,21 @@
     <li><a><i class="fa fa-cubes"></i> Job <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
             <li><a href="#">Job list</a></li>
-            <li><a href="#">Job Complete</a></li>
+            <li><a href="@controllers.dekottena.routes.OrderConfirmController.home()">Job Complete</a></li>
         </ul>
     </li>
 
     <li><a><i class="fa fa-users"></i> Users <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
-            <li><a href="#">New User</a></li>
+            <li><a href="@controllers.dekottena.routes.UserController.home()">New User</a></li>
             <li><a href="#">User List</a></li>
+        </ul>
+    </li>
+
+    <li><a><i class="fa fa-user"></i> Customers <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu">
+            <li><a href="@controllers.dekottena.routes.CustomerController.home()">New Customer</a></li>
+            <li><a href="#">Customer List</a></li>
         </ul>
     </li>
 

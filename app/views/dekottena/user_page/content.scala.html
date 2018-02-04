@@ -1,0 +1,117 @@
+@(pr_code: String, p_form: play.data.Form[models.Product],r_form: play.data.Form[models.Product])
+
+@implicitFieldConstructor = @{
+    b3.horizontal.fieldConstructor("col-md-3", "col-md-9")
+}
+@import helper._
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>User</h3>
+            </div>
+            @general_content.search_field("search field")
+        </div>
+        <div class="clearfix"></div>
+        @general_content.notification_section("notification section")
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        @*<h2>@pr_action - @pr_code</h2>*@
+
+                        <div class="pull-right">
+                            <button class="btn btn-primary" type="reset">New</button>
+                            <button class="btn btn-danger" type="reset">Deactivate</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br/>
+
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_content1" id="home-tab" role="tab"
+                                    data-toggle="tab"
+                                    aria-expanded="true">Product Info</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_content2" role="tab" id="profile-tab"
+                                    data-toggle="tab" aria-expanded="false">Extra Info</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+                                aria-labelledby="home-tab">
+                                @b3.formCSRF(controllers.dekottena.routes.ProductController.save(), 'id -> "pr_form",
+                                    'enctype -> "multipart/form-data") {
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            @b3.text(p_form("firstname"), 'class -> "form-control", '_label -> "First Name")
+                                            @b3.text(p_form("lastname"), 'class -> "form-control", '_label -> "Last Name")
+                                            @b3.text(p_form("username"), 'class -> "form-control", '_label -> "Username")
+                                            @b3.text(p_form("pword"), 'class -> "form-control", '_label -> "Password")
+                                            @b3.tel(p_form("mobile"), 'class -> "form-control", '_label -> "Telephone")
+                                            @b3.tel(p_form("email"), 'class -> "form-control", '_label -> "Email")
+                                            @b3.file(p_form("mainImage"), '_label -> "Main Image")
+                                            @b3.textarea(p_form("remark"),
+                                                'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+
+                                            <br>
+
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <input type="hidden" >
+                                    @b3.free('_id -> "btn_group") {
+                                        <button type="submit" class="btn btn-success"> Save</button>
+                                        <button type="button" class="btn btn-primary"> Restore Back</button>
+                                    }
+                                }
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                @b3.formCSRF(controllers.dekottena.routes.ProductController.save(), 'id -> "pr_form",
+                                    'enctype -> "multipart/form-data") {
+
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            @b3.text(r_form("firstname"), 'class -> "form-control", '_label -> "First Name")
+                                            @b3.text(r_form("lastname"), 'class -> "form-control", '_label -> "Last Name")
+                                            @b3.text(r_form("username"), 'class -> "form-control", '_label -> "Username")
+                                            @b3.text(r_form("pword"), 'class -> "form-control", '_label -> "Password")
+                                            @b3.tel(r_form("mobile"), 'class -> "form-control", '_label -> "Telephone")
+                                            @b3.tel(r_form("email"), 'class -> "form-control", '_label -> "Email")
+                                            @b3.file(r_form("mainImage"), '_label -> "Main Image")
+                                            @b3.textarea(r_form("remark"),
+                                                'id -> "c_remark", 'class -> "form-control", '_label -> "Remark")
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+
+
+                                            <br>
+
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <input type="hidden" >
+                                    @b3.free('_id -> "btn_group") {
+                                        <button type="submit" class="btn btn-success"> Save</button>
+                                        <button type="button" class="btn btn-primary"> Restore Back</button>
+                                    }
+                                }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

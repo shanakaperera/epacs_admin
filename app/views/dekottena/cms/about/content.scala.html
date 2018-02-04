@@ -47,7 +47,8 @@
 
                                                 @b3.file(aboutForm("imgUrl"), '_label -> "About us Image")
                                                 @if(aboutForm("imgUrl").getValue().isPresent()) {
-                                                    <img src='@aboutForm("imgUrl").value()' id='dynamic' style='max-width: 180px'>
+                                                    <img src='@aboutForm("imgUrl").value()' id='dynamic' style='max-width: 180px;margin-left: 40%;margin-bottom: 10px'>
+
                                                 }
 
                                                 @b3.text(aboutForm("headingEn"),
@@ -71,11 +72,11 @@
                                                 <div class="ln_solid "></div>
                                                 @b3.free('_id -> "btn_group") {
                                                     <button type="submit" class="btn btn-success pull-right"> Save</button>
-                                                    <button type="button" class="btn btn-warning pull-right"> Delete</button>
-                                                    <button type="button" class="btn btn-primary pull-right"> Clear</button>
+                                                    @*<button type="button" class="btn btn-warning pull-right"> Delete</button>*@
+                                                    @*<button type="button" class="btn btn-primary pull-right"> Clear</button>*@
                                                 }
 
-                                            </div>
+
                                         </div>
                                     }
                                     </div>

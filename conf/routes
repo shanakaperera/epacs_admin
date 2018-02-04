@@ -116,6 +116,28 @@ POST        /dekottena/product_category/cat_delete         controllers.dekottena
 #-------------------------------------------PRODUCT CATEGORY SECTION ENDS--------------------------------------------
 
 
+#-------------------------------------------ORDER CONFIRM STARTS--------------------------------------------
+# show Dekottena Order Confirm
+GET        /dekottena/order_confirm                      controllers.dekottena.OrderConfirmController.home
+
+#-------------------------------------------ORDER CONFIRM ENDS--------------------------------------------
+
+
+#-------------------------------------------USER STARTS------------------------------------------
+# show Dekottena user
+GET        /dekottena/user                     controllers.dekottena.UserController.home
+
+#-------------------------------------------USER ENDS--------------------------------------------
+
+#-------------------------------------------customer STARTS------------------------------------------
+# show Dekottena customer
+GET        /dekottena/customer                     controllers.dekottena.CustomerController.home
+
+#-------------------------------------------USER ENDS--------------------------------------------
+
+
+
+
 # ==========================================DEKOTTENA ENDS===============================================================
 
 # Map static resources from the /public folder to the /assets URL path
