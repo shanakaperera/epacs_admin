@@ -38,7 +38,8 @@
                             <div id="myTabContent" class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
                                 aria-labelledby="home-tab">
-                                @b3.formCSRF(controllers.dekottena.routes.cmshomeController.save(), 'id -> "abt_form") {
+                                @b3.formCSRF(controllers.dekottena.routes.cmshomeController.save(), 'id -> "abt_form",
+                                    'enctype -> "multipart/form-data") {
 
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -54,8 +55,13 @@
                                                 'id -> "btnUrl", 'class -> "form-control", '_label -> "Button URL")
 
                                             @b3.file(homeForm("imgUrl"), '_label -> "Slider Image")
+                                            @if(homeForm("imgUrl").getValue().isPresent()) {
+                                                <div class="form-group  " >
+                                                <img src='@homeForm("imgUrl").value()' id='dynamic' style='max-width: 180px;margin-left: 25%;float: right'>
+                                                </div>
+                                                }
 
-                                            @b3.checkbox(homeForm("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
+
 
 
 
@@ -70,6 +76,15 @@
                                             @b3.textarea(homeForm("descriptionJp"),
                                                 'id -> "descriptionJp", 'class -> "form-control", '_label -> "Description(JP)")
 
+                                            @b3.hidden(homeForm("id"))
+
+                                            @b3.checkbox(homeForm("status"), 'class -> "js-switch", '_text -> "Active", 'checked -> true)
+
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+
                                             <br>
                                             <br>
                                             <br>
@@ -79,8 +94,8 @@
                                             <div class="ln_solid"></div>
                                             @b3.free('_id -> "btn_group") {
                                                 <button type="submit" class="btn btn-success pull-right"> Save</button>
-                                                <button type="submit" class="btn btn-warning pull-right"> Delete</button>
-                                                <button type="button" class="btn btn-primary pull-right"> Clear</button>
+                                                @*<button type="submit" class="btn btn-warning pull-right"> Delete</button>*@
+                                                @*<button type="button" class="btn btn-primary pull-right"> Clear</button>*@
                                             }
 
                                         </div>
