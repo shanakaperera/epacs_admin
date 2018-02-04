@@ -198,7 +198,7 @@ public class ProductController extends Controller {
             String action = "New Product";
             String dList = getDataList();
             String code = getNextProductSequence();
-            final String file_name = code + ".sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
+            final String file_name = code + "_sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
 
             long data = ImageHandler.operateOnTempFile(sideView);
             int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
@@ -409,7 +409,7 @@ public class ProductController extends Controller {
             String action = "New Product";
             String dList = getDataList();
             String code = getNextProductSequence();
-            final String file_name = code + ".sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
+            final String file_name = code + "_sideview" + FilenameUtils.getExtension(filePart_2.getFilename());
 
             long data = ImageHandler.operateOnTempFile(sideView);
             int digit_part = Integer.parseInt(CharMatcher.DIGIT.retainFrom(FileUtils.byteCountToDisplaySize(data)));
